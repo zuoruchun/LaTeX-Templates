@@ -1,0 +1,315 @@
+\documentclass[11pt]{ctexart}
+\usepackage{ctex}
+\usepackage{fontspec} % 支持字体设置
+\usepackage{amsmath, amsthm, amsfonts, amssymb,bm}
+\usepackage{newtxtext}
+\usepackage[bookmarks=true, colorlinks, citecolor=blue,linkcolor=black]{hyperref}
+%bookmarks=true: 启用 PDF 书签功能，使得生成的 PDF 文件在查看时可以显示书签导航。
+%colorlinks: 启用彩色链接，这样链接文本会以不同颜色显示，而不是默认的方框。
+%citecolor=blue: 设置引用链接的颜色为蓝色。
+%linkcolor=black: 设置普通链接（如目录链接）的颜色为黑色。
+\usepackage{geometry}
+\usepackage{lipsum} % 该宏包是通过 \lipsum 命令生成一段本文，正式使用时不需要引用该宏包
+\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage[strict]{changepage} % 提供一个 adjustwidth 环境
+\usepackage{framed} % 实现方框效果
+\usepackage{tcolorbox}
+
+\usepackage{tikz}
+
+%%%字体
+
+%\songti 宋体，CJK等价命令 \CJKfamily{zhsong}。
+%\heiti 黑体，CJK等价命令 \CJKfamily{zhhei}。
+%\fangsong 仿宋，CJK等价命令 \CJKfamily{zhfs}。
+%\kaishu 楷书，CJK 等价命令 \CJKfamily{zhkai}。
+
+
+\everymath{\displaystyle}%全局设置行间公式
+
+\usepackage{etoolbox}%修改现有环境的定义
+
+% 中文定理环境
+% \indent 为了段前空两格
+
+\newtheorem{theorem}{\indent 定理}[section]
+\newtheorem{lemma}[theorem]{\indent 引理}
+\newtheorem{proposition}[theorem]{\indent 命题}
+\newtheorem{corollary}[theorem]{\indent 推论}
+\newtheorem{definition}{\indent 定义}[section]
+\newtheorem{example}{\indent 例}[section]
+\newtheorem{remark}{\indent 注}[section]
+\newenvironment{solution}{\begin{proof}[\noindent\bf 解]\fangsong}{\end{proof}}
+\renewcommand{\proofname}{\noindent \bf  证明}
+
+% 重新定义 proof 环境，去掉名称后的句点
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{%  
+	\par\pushQED{\qed}%  
+	\normalfont \topsep6\p@\@plus6\p@\relax  
+	\trivlist  
+	\item[\hskip\labelsep        
+			\bfseries #1] % 去掉这里的句点        
+			\fangsong%设置 proof 环境内部的字体为仿宋
+}{%  
+	\popQED\endtrivlist\@endpetrue
+}
+\makeatother
+
+
+
+
+
+
+
+
+% % English theorem environment% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{proposition}[theorem]{Proposition}
+% \newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{definition}{Definition}[section]
+% \newtheorem{remark}{Remark}[section]
+% \newtheorem{example}{Example}[section]
+% \newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+
+\geometry{a4paper,centering,scale=0.85}
+% environment derived from framed.sty: see leftbar environment definition
+\definecolor{formalshade}{rgb}{0.95,0.95,1} % 文本框颜色
+% ------------------******-------------------
+%注意行末需要把空格注释掉，不然画出来的方框会有空白竖线
+\newenvironment{quoteblock}{%
+\def\FrameCommand{%
+\hspace{1pt}%
+{\color{DarkBlue}\vrule width 2pt}%
+{\color{formalshade}\vrule width 4pt}%\
+colorbox{formalshade}%
+}%
+\MakeFramed{\advance\hsize-\width\FrameRestore}%
+\noindent\hspace{-4.55pt}% disable indenting first paragraph
+\begin{adjustwidth}{}{7pt}%
+\vspace{2pt}\vspace{2pt}%
+}
+{%
+\vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+%------------------******-------------------
+\definecolor{greenshade}{rgb}{0.90,0.99,0.91} % 绿色文本框，竖线颜色设为 Green
+\definecolor{redshade}{rgb}{1.00,0.90,0.90}% 红色文本框，竖线颜色设为 LightCoral
+\definecolor{brownshade}{rgb}{0.99,0.97,0.93} % 莫兰迪棕色，竖线颜色设为 BurlyWood
+
+\newenvironment{solblock}{%
+\def\FrameCommand{%
+\hspace{1pt}%
+{\color{BurlyWood}\vrule width 2pt}%
+{\color{brownshade}\vrule width 4pt}%
+\colorbox{brownshade}%
+}%
+\MakeFramed{\advance\hsize-\width\FrameRestore}%
+\noindent\hspace{-4.55pt}% disable indenting first paragraph
+\begin{adjustwidth}{}{7pt}%
+\vspace{2pt}\vspace{2pt}%
+}
+{%
+\vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+			
+\newenvironment{quesblock}{%
+\def\FrameCommand{%
+\hspace{1pt}%
+{\color{Green}\vrule width 2pt}%
+{\color{greenshade}\vrule width 4pt}%
+\colorbox{greenshade}%
+}%
+\MakeFramed{\advance\hsize-\width\FrameRestore}%
+\noindent\hspace{-4.55pt}% disable indenting first paragraph
+\begin{adjustwidth}{}{7pt}%
+\vspace{2pt}\vspace{2pt}%
+}
+{%
+\vspace{2pt}\end{adjustwidth}\endMakeFramed%
+}
+
+
+
+% ------------------define markerblock-------------------
+\tcbuselibrary{most} 
+\newtcolorbox{markerblock}[1][]{enhanced,  
+	before skip=2mm,after skip=3mm,  
+	boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,  
+	colback=yellow!20,  
+	colframe=yellow!40!black,  
+	sharp corners,rounded corners=southeast,arc is angular,arc=3mm,  
+	underlay={%    
+		\path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);    
+		\path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);    
+		\path[fill=yellow!80!black,draw=none] (interior.south west) rectangle node[white]{\Huge\bfseries !} ([xshift=4mm]interior.north west);    
+		},  
+	drop fuzzy shadow,#1}
+		
+% ---------------define tips--------------
+
+\definecolor{tipscolor}{rgb}{0.77,0.72,0.65} % 莫兰迪棕色
+\newtcolorbox{tipsblock}[2][]
+{enhanced,breakable,
+left=12pt,right=12pt,% 左右边距
+% fonttitle=\bfseries, % 可以设置标题是否粗体
+coltitle=white, % 标题字体颜色
+colbacktitle=tipscolor, % 标题背景颜色
+attach boxed title to top left={yshifttext=-1mm},
+boxed title style={skin=enhancedfirst jigsaw,arc=1mm,bottom=0mm,
+boxrule=0mm},boxrule=1pt, % 边框线宽
+colback=OldLace, % 文本框背景颜色
+colframe=tipscolor, % 框线颜色
+sharp corners=northwest,
+% drop fuzzy shadow, % 可以选择是否设置阴影效果
+title=\vspace{3mm}\textbf{#2},
+arc=1mm,
+#1}%
+
+% 定义计数器
+\newcounter{thmcounter}  % 定理计数器
+\newcounter{defcounter}  % 定义计数器
+\newcounter{lemmacounter}  % 引理计数器
+\newcounter{propcounter}  % 命题计数器
+\newcounter{colcounter}  % 推论计数器
+
+%------------------******-------------------
+% \newenvironment{thmblock}[1][\textbf{Theorem}]{\begin{tcolorbox}[title=\textbf{#1}, colback=red!5,colframe=red!75!black,boxsep=1.5pt,top=4pt, bottom=6pt,breakable]\itshape\large}{\end{tcolorbox}}
+
+% \newenvironment{defblock}[1][\textbf{Definition}]{\begin{tcolorbox}[colback = Emerald!10, colframe = cyan!40!black, title = \textbf{#1},boxsep=1.5pt,top=4pt, bottom=6pt,breakable]\itshape\large}{\end{tcolorbox}}
+
+% \newenvironment{lemmablock}[1][\textbf{Lemma}]{\begin{tcolorbox}[title=\textbf{#1},colback=SeaGreen!10!CornflowerBlue!10,colframe=RoyalPurple!55!Aquamarine!100!,boxsep=1.5pt,top=4pt, bottom=6pt,breakable]\itshape\large}{\end{tcolorbox}}
+
+% \newenvironment{propblock}[1][\textbf{Proposition}]{\begin{tcolorbox}
+% [title = \textbf{#1}, colback=Salmon!20, colframe=Salmon!90!Black,boxsep=1.5pt,top=4pt, bottom=6pt,breakable]\itshape\large}{\end{tcolorbox}}
+
+% \newenvironment{colblock}[1][\textbf{Collary}]{\begin{tcolorbox}[colback=JungleGreen!10!Cerulean!15,colframe=CornflowerBlue!60!Black,title = \textbf{#1},boxsep=1.5pt,top=4pt, bottom=6pt,breakable]\itshape\large}{\end{tcolorbox}}% 
+%----------------*******---------------
+
+% 定义计数器
+\numberwithin{thmcounter}{section}  % 可选：按章节编号
+\numberwithin{defcounter}{section}  % 可选：按章节编号
+\numberwithin{lemmacounter}{section}  % 可选：按章节编号
+\numberwithin{propcounter}{section}  % 可选：按章节编号
+\numberwithin{colcounter}{section}  % 可选：按章节编号
+
+% Theorem 环境
+\newenvironment{thmblock}[1][\empty]{
+    \stepcounter{thmcounter}
+    \begin{tcolorbox}[
+        title=\textbf{Theorem \thethmcounter\quad#1}, 
+        colback=red!5,
+        colframe=red!75!black,
+        boxsep=1.5pt,
+        top=4pt, 
+        bottom=6pt,
+        breakable
+    ]\itshape\large
+}{\end{tcolorbox}}
+
+% Definition 环境
+\newenvironment{defblock}[1][\empty]{
+    \stepcounter{defcounter}
+    \begin{tcolorbox}[
+        title=\textbf{Definition \thedefcounter\if\empty#1\else\quad#1\fi}, 
+        colback=Emerald!10, 
+        colframe=cyan!40!black,
+        boxsep=1.5pt,
+        top=4pt, 
+        bottom=6pt,
+        breakable
+    ]\itshape\large
+}{\end{tcolorbox}}
+
+% Lemma 环境
+\newenvironment{lemmablock}[1][\empty]{
+    \stepcounter{lemmacounter}
+    \begin{tcolorbox}[
+        title=\textbf{Lemma \thelemmacounter\if\empty#1\else\quad#1\fi},
+        colback=SeaGreen!10!CornflowerBlue!10,
+        colframe=RoyalPurple!55!Aquamarine!100!,
+        boxsep=1.5pt,
+        top=4pt, 
+        bottom=6pt,
+        breakable
+    ]\itshape\large
+}{\end{tcolorbox}}
+
+% Proposition 环境
+\newenvironment{propblock}[1][\empty]{
+    \stepcounter{propcounter}
+    \begin{tcolorbox}[
+        title=\textbf{Proposition \thepropcounter\if\empty#1\else\quad#1\fi}, 
+        colback=Salmon!20, 
+        colframe=Salmon!90!Black,
+        boxsep=1.5pt,
+        top=4pt, 
+        bottom=6pt,
+        breakable
+    ]\itshape\large
+}{\end{tcolorbox}}
+
+% Corollary 环境
+\newenvironment{colblock}[1][\empty]{
+    \stepcounter{colcounter}
+    \begin{tcolorbox}[
+        title=\textbf{Corollary \thecolcounter\if\empty#1\else\quad#1\fi},
+        colback=JungleGreen!10!Cerulean!15,
+        colframe=CornflowerBlue!60!Black,
+        boxsep=1.5pt,
+        top=4pt, 
+        bottom=6pt,
+        breakable
+    ]\itshape\large
+}{\end{tcolorbox}}
+
+
+\usepackage{lastpage}
+\usepackage{lipsum} % 用于生成示例文本
+
+\usepackage{enumitem}% 定义一个新的列表样式，
+
+
+%%%设置页眉页尾
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\lhead{}
+%\chead{}
+%\rhead{}
+%\lfoot{Author Name}
+\cfoot{\thepage}
+%\rfoot{\today}
+
+
+% -------------------------
+
+\title{\textbf{{Functional Analysis}}}
+\author{xiaowen}
+\date{\today}
+
+
+% ------------------******-------------------
+\begin{document}
+\maketitle
+
+% 重新定义目录标题为“目录”，并在两个字之间添加水平间距
+\pagenumbering{gobble} %用于隐藏页码
+\renewcommand{\contentsname}{目\hspace{2em}录}
+
+{\centering\tableofcontents\thispagestyle{empty}}
+
+\clearpage
+
+% 从这里开始正文
+\pagenumbering{arabic} % 设置页码格式为阿拉伯数字
+\setcounter{page}{1} % 从1开始页码
+
+
+\include{Functional Analysis/1}
+\include{Functional Analysis/2}
+\include{Functional Analysis/3}
+
+	
+	
+	
+\end{document}

@@ -1,0 +1,122 @@
+
+% 微分方程的数值方法
+
+\chapter{BEM方法的强收敛性}
+
+对于随机微分方程\cref{basic SDE},它的BEM数值格式是:
+\begin{equation}\label{eq:1}
+	X_{t_{i+1}}=X_{t_i}+f(X_{t_{i+1}})\Delta E_{i}+\sigma\Delta B_{E_{i}},\quad i=0,1,2,\ldots,\qquad X_0=X(0)
+\end{equation}
+其中$\Delta E_{i}=E(t_{i+1})-E(t_i)$以及$\Delta B_{E_{i}}=B(E{(t_{i+1})})-B(E({t_i}))$.
+\begin{theorem}\label{main th}
+	对于任意的$\epsilon>0$,令$\epsilon < T1 < T2$,在\cref{assum1},\cref{assum2}和\cref{assum3}的条件下,存在常数C,使得下面的不等式成立:
+	$$\mathbb{E}[|X({t_i})-X_{t_i}|]\le C\Delta t^\alpha,\quad i=\lceil T1/\Delta t \rceil,\lceil T1/\Delta t \rceil+1 \ldots \lceil T2/\Delta t \rceil$$
+\end{theorem}
+\begin{proof}
+	由于第一变量变换和第二变量变换公式\cref{first},\cref{second}的成立,使得我们可以考虑\cref{basic SDE}在$[t_i,t_{i+1})$的积分:
+	\begin{align}
+		\int_{t_i}^{t_{i+1}}dX(s)=\int_{t_i}^{t_{i+1}}f(X(s))dE(s)+\int_{t_i}^{t_{i+1}}\sigma dB(E(s))
+	\end{align}
+	等价于
+	\begin{align}
+		\int_{t_i}^{t_{i+1}}dX(s))=\int_{E_{t_i}}^{E_{t_{i+1}}}f(X(D(s-)))ds+\int_{E_{t_i}}^{E_{t_{i+1}}}\sigma dB(s)
+	\end{align}
+	针对于漂移项$f(X(D(s-)))$,下面等式恒成立:
+	\begin{align}\label{eq:ito}
+		\int_{E(t_i)}^{E(t_{i+1})} f(X(D(t_{i+1}-)))) - f(X(D(t-))) dt = \int_{E(t_i)}^{E(t_{i+1})} \int^{D(t_{i+1}-)}_{D(t-)} df(X(s)) dt
+	\end{align}
+	对于$df(X(s))$,由\cref{ito}的时间变换It\^{o}公式:
+	\begin{align*}
+		\begin{gathered}
+			f(X(t))-f(0)=\int_{0}^{E(t)}f(X(D(s-)))f^{\prime}\left(X(D(s-))\right)+\frac{\sigma^{2}}{2}f^{\prime\prime}\big(X(D(s-))\big)ds \\
+			+\int_{0}^{E(t)}\sigma f^{\prime}\big(X(D(s-))\big)dB(s)
+		\end{gathered}
+	\end{align*}
+	于是\cref{eq:ito}变成
+	\begin{equation}\label{eq:ito1}
+		\begin{aligned}
+			&\quad\int_{E(t_i)}^{E(t_{i+1})} f(X(D(t_{i+1}-))) - f(X(D(t-))) dt \\
+			&= \int_{E(t_i)}^{E(t_{i+1})} \int_{t}^{t_{i+1}} \left( f(X(D(s))) f^{\prime}(X(D(s))) + \frac{1}{2} \sigma^2 f^{\prime\prime}(X(D(s))) \right) ds \, dt\\
+			&\quad + \int_{E(t_i)}^{E(t_{i+1})} \int_{t}^{t_{i+1}} \sigma f^{\prime}(X(D(s))) \, dB(s) \, dt .
+		\end{aligned}
+	\end{equation}
+	由\cref{basic SDE}与\cref{eq:ito1},以及\cite[Theorem 3.1]{kobayashi2011stochastic}可以得到
+	\begin{align*}
+		X(t_{i+1}) 
+		&= X(t_i) + \int_{E(t_i)}^{E(t_{i+1})} f(X({D(t_{i+1})})) \, dt + \int_{t_i}^{t_{i+1}} \sigma \, dB(E(t)) \\
+		&\quad + \int_{E(t_i)}^{E(t_{i+1})} \int_{t}^{t_{i+1}}\left( f(X(D(s))) f^{\prime}(X(D(s))) + \frac{1}{2} \sigma^2 f^{\prime\prime}(X(D(s))) \right) ds \, dt \\
+		&\quad + \int_{E(t_i)}^{E(t_{i+1})} \int_{t}^{t_{i+1}}\sigma f^{\prime}(X(D(s)))) \, dB(s) \, dt \\
+		&= X(t_i) + \int_{t_i}^{t_{i+1}} f(X({t_i)}) \, dE(t) + \int_{t_i}^{t_{i+1}} \sigma \, dB(E(t)) \\
+		&\quad + \int_{t_i}^{t_{i+1}} \int_{E(t)}^{E(t_{i+1})} \left( f(X(D(s))) f^{\prime}(X(D(s))) + \frac{1}{2} \sigma^2 f^{\prime\prime}(X(D(s))) \right) ds \, dE(t) \\
+		&\quad + \int_{t_i}^{t_{i+1}} \int_{E(t)}^{E(t_{i+1})}\sigma f^{\prime}(X(D(s))) \, dB(s) \, dE(t)\\
+		&= X(t_i) + \int_{t_i}^{t_{i+1}} f(X({t_i})) \, dE(t) + \int_{t_i}^{t_{i+1}} \sigma \, dB(E(t)) \\
+		&\quad + \int_{t_i}^{t_{i+1}} \int_{t}^{t_{i+1}} \left( f(X(s)) f^{\prime}(X(s)) + \frac{1}{2} \sigma^2 f^{\prime\prime}(X(s)) \right) dE(s) \, dE(t) \\
+		&\quad + \int_{t_i}^{t_{i+1}} \int_{t}^{t_{i+1}}\sigma f^{\prime}(X(s)) \, dB(E(s)) \, dE(t)
+	\end{align*}
+	因此
+	\begin{align}\label{eq:2}
+		X(t_{i+1})
+		&= X(t_i) + \int_{t_i}^{t_{i+1}} f(X({t_{i+1})}) \, dE(t) + \int_{t_i}^{t_{i+1}} \sigma \, dB(E(t)) + R_i
+	\end{align}
+	其中
+	\begin{align*}
+		R_i = &-\int_{t_i}^{t_{i+1}} \int_{t}^{t_{i+1}} \left( f(X(s)) f^{\prime}(X(s)) + \frac{1}{2} \sigma^2 f^{\prime\prime}(X(s)) \right) dE(s) \, dE(t)\\
+		&-\int_{t_i}^{t_{i+1}} \int_{t}^{t_{i+1}} \sigma f^{\prime}(X(s)) \, dB(E(s)) \, dE(t)
+	\end{align*}
+	将$R_i$分解成$R_i = R_i^{(1)} + R_i^{(2)}$,其中:
+	\begin{align*}
+		& R_s^{(1)} = -\int_{t_i}^{t_{i+1}} \int_{t}^{t_{i+1}} \left( f(X(s)) f^{\prime}(X(s)) + \frac{1}{2} \sigma^2 f^{\prime\prime}(X(s)) \right) dE(s) \, dE(t).\\
+		& R_s^{(2)} = -\int_{t_i}^{t_{i+1}} \int_{t}^{t_{i+1}} \sigma f^{\prime}(X(s)) \, dB(E(s)) \, dE(t)  
+	\end{align*}
+	和离散格式相减,即\cref{eq:2}-\cref{eq:1}得到：
+	\begin{equation}
+		X({t_{i+1}})-X_{t_{i+1}}=X({t_i})-X_{t_i}+(f{(X({t_{i+1}}))}-f{(X_{t_{i+1}})})\Delta E_{i}+R_{i}
+	\end{equation}
+	令$e_i = X({t_i})-X_{t_i}$
+	由\cref{assum2}得到：
+	\begin{equation}
+		(1-K_1\Delta E_s)e_{s+1}\leq e(s)+R_{s},\quad\text{其中}s=\lceil T1/\Delta t \rceil,\lceil T1/\Delta t \rceil+1 \ldots \lceil T2/\Delta t \rceil
+	\end{equation}
+	定义$\gamma_l = 1-K_1\Delta E_l$,$N_1 = \lceil T1/\Delta t \rceil$以及$N_2 = \lceil T2/\Delta t \rceil$,\textcolor{red}{由$E$的次线性性质,我们可以取$(K_1\Delta E_l)_{max} = K'\Delta E \le K'' \Delta t$},从而可以得到
+	\begin{equation}\label{bound}
+		\prod\limits_{l=N_1}^{N_2}\gamma_l^{-1} < \frac{1}{(1-C\Delta t)^{N_2-N_1}} < \infty
+	\end{equation}
+	由\cref{lemma:1},我们可以得到
+	$$e_{N_2} \leq \sum\limits_{j=N_1}^{N_2}R_{j}\prod\limits_{l=j}^{N_2}\gamma_l^{-1} \le C \sum\limits_{j=N_1}^{N_2}R_{j}$$
+	于是结合\cref{bound},我们可以得到
+	$$\mathbb{E}  |e_{N_2}| \leq C\mathbb{E}\left|\sum\limits_{j=N_1}^{N_2}R_{j}^{(1)} \right| + C\mathbb{E}\left|\sum\limits_{j=N_1}^{N_2}R_{j}^{(2)} \right|$$.
+	下面先考虑第一项,由\cref{lemma:2}和\cref{assum3},可以得到
+	\begin{equation}
+		\mathbb{E} |R_j^{(1)}| \le C\mathbb{E} \left[ \int_{t_i}^{t_{i+1}}\int_{t_i}^{t}1dEsdEt \right] \le C\Delta t^{1+\alpha}
+	\end{equation}
+	于是
+	\begin{equation}
+		\mathbb{E}\left|\sum\limits_{j=N_1}^{N_2}R_{j}^{(1)}\right|\leq C\sum\limits_{N_1}^{N_2}\mathbb{E}\left|R_{j}^{(1)}\right| \leq
+		C\sum\limits_{j=N_1}^{N_2}\Delta t^{1+\alpha} \le C\Delta t^\alpha
+	\end{equation}
+	因为
+	\begin{align*}
+		\mathbb{E}\left[ R_{k}^{(2)}|\mathcal{F}_{k\Delta t} \right] &= \mathbb{E}_D\mathbb{E}_B\left[ \int_{t_i}^{t_{i+1}} \int_{t_i}^{t} \sigma f^{\prime}(X(s)) \, dB(E(s)) \, dE(t) \right]\\
+		&=\mathbb{E}_D\left[ \int_{t_i}^{t_{i+1}} \mathbb{E}_B\int_{t_i}^{t} \sigma f^{\prime}(X(s)) \, dB(E(s)) \, dE(t) \right]\\
+		&= 0
+	\end{align*}
+	因此
+	\begin{align*}
+		\sum_{j=N_1}^{N_2}R_{j}^{(2)} 
+	\end{align*}
+	是鞅.我们知道由BDG不等式和\cref{lemma:2}可以得到:
+	\begin{equation}
+		\mathbb{E}[dB_EdE]^2=\mathbb{E}[(dB_E)^2(dE)^2]=\mathbb{E}_D[(dE)^2\mathbb{E}_B(dB_E)^2]\leq
+		C\mathbb{E}_{D}[dE]^3\leq C\Delta t ^{1+2\alpha}
+	\end{equation}
+	于是对于第二项,由BDG不等式和Cauchy-Schwarz不等式,可以得到:
+	\begin{equation*}
+		\mathbb{E}\left|\sum_{j=N_1}^{N_2}R_{j}^{(2)}\right|  \le C\mathbb{E} \left|\sum_{j=N_1}^{N_2}(R_{j}^{(2)})^2\right|^{\frac{1}{2}} \le C\sqrt{\sum_{j=N_1}^{N_2}\mathbb{E}(R_{j}^{(2)})^2}
+		\le C\sqrt{\sum_{j=N_1}^{N_2}\Delta t^{1+2\alpha}} \le C\Delta t^{\alpha}
+	\end{equation*}
+	综上所述,
+	\begin{equation*}
+		\mathbb{E} [e_n] \leq C\Delta t^\alpha
+	\end{equation*}
+\end{proof}
+%	tips:We have also proved that $\mathbb{E} [\Delta E \Delta B_E ] \le C\Delta t ^{1+\frac{\alpha}{2}}$,however it seems that it's nothing help here.

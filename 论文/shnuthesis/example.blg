@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: example.aux
+The style file: shnuthesis-numeric.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 150 items from 100.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: refs.bib
+I was expecting an "="---line 103 of file refs.bib
+ :   Edition 
+ :           Number:2,
+I'm skipping whatever remains of this entry
+You've used 16 entries,
+            5246 wiz_defined-function locations,
+            1108 strings with 10571 characters,
+and the built_in function-call counts, 111457 in all, are:
+= -- 2134
+> -- 12932
+< -- 16402
++ -- 4494
+- -- 680
+* -- 652
+:= -- 15305
+add.period$ -- 48
+call.type$ -- 16
+change.case$ -- 32
+chr.to.int$ -- 4061
+cite$ -- 16
+duplicate$ -- 396
+empty$ -- 994
+format.name$ -- 383
+if$ -- 29059
+int.to.chr$ -- 1
+int.to.str$ -- 17
+missing$ -- 0
+newline$ -- 95
+num.names$ -- 48
+pop$ -- 6098
+preamble$ -- 1
+purify$ -- 16
+quote$ -- 0
+skip$ -- 11545
+stack$ -- 0
+substring$ -- 5053
+swap$ -- 20
+text.length$ -- 233
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 194
+warning$ -- 0
+while$ -- 298
+width$ -- 0
+write$ -- 234
+(There was 1 error message)

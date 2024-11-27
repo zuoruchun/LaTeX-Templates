@@ -1,0 +1,76 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\else
+  \urlstyle{same}\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \DeclareUrlCommand\doi{\urlstyle{rm}}
+  \def\eprint#1#2{#2}
+\else
+  \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+  \let\eprint\href
+\fi
+
+\bibitem[Alfonsi(2013)]{Alfonsi2013602}
+Alfonsi A.
+\newblock Strong order one convergence of a drift implicit euler scheme:
+  Application to the cir process\allowbreak[J].
+\newblock Stat Probab Lett, 2013, 83\allowbreak (2): 602 – 607.
+
+\bibitem[Iacus et~al.(2008)]{iacus2008simulation}
+Iacus S~M, et~al.
+\newblock Simulation and inference for stochastic differential equations: with
+  r examples: volume 486\allowbreak[M].
+\newblock Springer, 2008.
+
+\bibitem[Jum et~al.(2016)Jum and Kobayashi]{jum2014strong}
+Jum E, Kobayashi K.
+\newblock A strong and weak approximation scheme for stochastic differential
+  equations driven by a time-changed brownian motion\allowbreak[J].
+\newblock Probab. Math. Statist, 2016, 36\allowbreak (2).
+
+\bibitem[Deng et~al.(2020)Deng and Liu]{deng2020semi}
+Deng C~S, Liu W.
+\newblock Semi-implicit euler--maruyama method for non-linear time-changed
+  stochastic differential equations\allowbreak[J].
+\newblock BIT Numer Math, 2020, 60: 1133-1151.
+
+\bibitem[Jin et~al.(2019)Jin and Kobayashi]{jin2019strong}
+Jin S, Kobayashi K.
+\newblock Strong approximation of stochastic differential equations driven by a
+  time-changed brownian motion with time-space-dependent
+  coefficients\allowbreak[J].
+\newblock J Math Anal Appl, 2019, 476\allowbreak (2): 619-636.
+
+\bibitem[Magdziarz(2009)]{magdziarz2009stochastic}
+Magdziarz M.
+\newblock Stochastic representation of subdiffusion processes with
+  time-dependent drift\allowbreak[J].
+\newblock Stoch Process Their Appl, 2009, 119\allowbreak (10): 3238-3252.
+
+\bibitem[Umarov et~al.(2018)Umarov, Hahn, and Kobayashi]{umarov2018beyond}
+Umarov S, Hahn M, Kobayashi K.
+\newblock Beyond the triangle: Brownian motion, it{\^o} calculus, and
+  fokker-planck equation-fractional generalizations\allowbreak[M].
+\newblock World Scientific, 2018.
+
+\bibitem[Daley et~al.(2003)Daley, Vere-Jones, et~al.]{daley2003introduction}
+Daley D~J, Vere-Jones D, et~al.
+\newblock An introduction to the theory of point processes: volume i:
+  elementary theory and methods\allowbreak[M].
+\newblock Springer, 2003.
+
+\bibitem[Kobayashi(2011)]{kobayashi2011stochastic}
+Kobayashi K.
+\newblock Stochastic calculus for a time-changed semimartingale and the
+  associated stochastic differential equations\allowbreak[J].
+\newblock J Theor Probab, 2011, 24: 789-820.
+
+\bibitem[Li et~al.(2023)Li, Liao, Liu, and Xing]{li2023convergence}
+Li X, Liao J, Liu W, et~al.
+\newblock Convergence and stability of an explicit method for autonomous
+  time-changed stochastic differential equations with super-linear
+  coefficients\allowbreak[J].
+\newblock Adv. Appl. Math. Mech, 2023, 15\allowbreak (3): 651-683.
+
+\end{thebibliography}

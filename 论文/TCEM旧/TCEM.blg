@@ -1,0 +1,64 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: TCEM.aux
+The style file: thuthesis-numeric.bst
+Illegal, another \bibstyle command---line 59 of file TCEM.aux
+ : \bibstyle
+ :          {plain}
+I'm skipping whatever remains of this command
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 150 items from 100.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: reference.bib
+I was expecting an "="---line 103 of file reference.bib
+ :   Edition 
+ :           Number:2,
+I'm skipping whatever remains of this entry
+You've used 9 entries,
+            5308 wiz_defined-function locations,
+            1088 strings with 9294 characters,
+and the built_in function-call counts, 59625 in all, are:
+= -- 1136
+> -- 6832
+< -- 8714
++ -- 2439
+- -- 364
+* -- 337
+:= -- 8172
+add.period$ -- 27
+call.type$ -- 9
+change.case$ -- 25
+chr.to.int$ -- 2144
+cite$ -- 9
+duplicate$ -- 231
+empty$ -- 596
+format.name$ -- 191
+if$ -- 15595
+int.to.chr$ -- 1
+int.to.str$ -- 10
+missing$ -- 0
+newline$ -- 59
+num.names$ -- 27
+pop$ -- 3306
+preamble$ -- 1
+purify$ -- 9
+quote$ -- 0
+skip$ -- 6102
+stack$ -- 0
+substring$ -- 2713
+swap$ -- 11
+text.length$ -- 165
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 91
+warning$ -- 0
+while$ -- 176
+width$ -- 0
+write$ -- 133
+(There were 2 error messages)

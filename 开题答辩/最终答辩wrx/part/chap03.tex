@@ -1,0 +1,342 @@
+
+%%%%%%%%%%%%%% 微分方程的数值方法 %%%%%%%%%%%%%
+
+\chapter{截断Milstein方法的强收敛性}
+
+本章我们研究以下形式的非自治时间变换随机微分方程:
+\begin{align*}
+    dY(t) = f(t,Y(t))dE(t) + g(t,Y(t))dW(E(t)),
+\end{align*}
+其中漂移项$f$和扩散项$g$中的空间变量满足超线性增长条件, 时间变量满足H{\"o}lder连续条件. 证明截断Milstein方法在有限时间内的强收敛性, 并获得收敛率.
+
+\section{主要结论及推论}
+\begin{theorem}
+    \label{theorem3-2}
+    若假设\ref{ass1}、\ref{ass2}、\ref{ass3} 和\ref{ass4} 对 $q>2(\a+1)p$成立, 那么对任意 $\bar{p}\in [2,p)$ 和 $h \in (0,1]$, $C$是一个常数且 $\l > 0$, 有
+    \begin{align}
+        \label{th321}
+        &\EE \bigg( \sup_{0\leq t\leq T}|Y(t)-X(t)|^{\bar{p}} \bigg) \nonumber\\
+        \leq& C\bigg(h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}+h^{\bar{p}}(\k(h))^{2\bar{p}}+(\m^{-1}(\k(h)))^{(\a+1)\bar{p}-q}\bigg)
+    \end{align}
+    和
+    \begin{align}
+        \label{th322}
+        &\EE\bigg(\sup_{0\leq t\leq T}|Y(t)-\bar{X}(t)|^{\bar{p}}\bigg)\nonumber\\
+        \leq& C\bigg(h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}+h^{\bar{p}}(\k(h))^{2\bar{p}}+(\m^{-1}(\k(h)))^{(\a+1)\bar{p}-q}\bigg).
+    \end{align}
+\end{theorem}
+通过加强假设\ref{ass3}的条件, 并选择特定的$\mu(\cdot)$ 和 $\kappa (\cdot)$, 我们可以得到以下推论, 其更清晰地展示了截断Milstein方法的强收敛速率.
+\begin{corollary}
+    \label{theorem3-1}
+    若假设\ref{ass1}、\ref{ass2} 和 \ref{ass4} 成立, 且假设\ref{ass3}对任意 $q>2$成立, 那么对任意 $\bar{p}\in [2,p)$ 和 $\varepsilon\in(0,\frac{1}{4}]$, 存在一个常数C对任意 $h \in (0,1]$和$\l > 0$, 有
+    \begin{align}
+        \label{th311}
+        \EE\left( \sup_{0\leq t\leq T}|Y(t)-X(t)|^{\bar{p}}\right)\leq h^{\min\{\gamma_f\bar{p},\gamma_g\bar{p},(1-2\varepsilon)\bar{p}\}}
+    \end{align}
+    和
+    \begin{align}
+        \label{th312}
+        \EE\left( \sup_{0\leq t\leq T}|Y(t)-\bar{X}(t)|^{\bar{p}}\right)\leq Ch^{\min\{\gamma_f\bar{p},\gamma_g\bar{p},(1-2\varepsilon)\bar{p}\}}.
+    \end{align}
+\end{corollary}
+\begin{remark}
+    推论\ref{theorem3-1}表明, 对于时间变量的某些光滑系数而言,截断Milstein方法的强收敛率可以无限接近于1, 但随着光滑系数的减小, 收敛速度也会相应减缓.
+\end{remark}
+\begin{remark}
+    对此类高非线性非自治时间变换随机微分方程的研究, 相比于Li在\cite{Li2023651}中研究的截断Euler-Maruyama方法, 本文研究的截断Milstein方法提高了收敛阶.
+\end{remark}
+\section{强收敛率证明}
+本节我们将证明主要定理$\ref{theorem3-2}$.
+\begin{proof}
+固定任意$\bar{p}\in [2,p)$和$h\in(0,1]$, 对$t\geq 0$令$e(t)=Y(t)-X(t)$, 对每个整数 $\ell> |Y(0)|$定义停时
+\begin{align}
+    \theta_{\ell}=\inf\{t\geq0:|Y(t)|\vee|X(t)|\geq \ell\},
+\end{align}
+这里, 我们设$\inf\emptyset=\infty$ (通常情况下$\emptyset$表示空集). 根据It\^o 公式, 对任意$0\leq t\leq T$有
+\begin{align}
+    \label{error}
+    |e(t\wedge \theta_{\ell})|^{\bar{p}}&=\int^{t\wedge\theta_{\ell}}_{0}\bigg(\bar{p}|e(s)|^{\bar{p}-1}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\nonumber\\
+    &\quad +\frac{\bar{p}(\bar{p}-1)}{2}|e(s)|^{\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))\nonumber\\
+    &\quad
+    -Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2 \bigg)dE(s)+M_{t\wedge \theta_{\ell}},
+\end{align}
+其中
+\begin{align*}
+    M_{t\wedge \theta_{\ell}}:= &\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-1}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))\\
+    &-Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|dW(E(s)).
+\end{align*}
+由于随机积分$(M_t)_{t\geq 0}$是一个局部鞅, 其二次变差为
+\begin{align*}
+    [M,M]_{t\wedge \theta_{\ell}}=&\int^{t\wedge\theta_{\ell}}_{0}\bar{p}^2|e(s)|^{2\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))\\
+    &-Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2 dE(s).
+\end{align*}
+对$0\leq s\leq t\wedge\theta_{\ell}$有
+\begin{align*}
+    \begin{split}
+        &\bar{p}^2|e(s)|^{2\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))-Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2\\
+        =&\bar{p}^2|e(s)|^{\bar{p}}|e(s)|^{\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))-Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2\\
+        \leq& \bar{p}^2(\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}})|e(s)|^{\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))\\
+        &-Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2.
+    \end{split}
+\end{align*}
+因此, 对任意$a,b>0$和$\l>0$,我们使用不等式$(ab)^{1/2}\leq a/\l+\l b$, 取 $\l=2\bar{p}$有
+\begin{align}
+    \label{mt}
+    &([M,M]_{t\wedge \theta_{\ell}})^{1/2}\nonumber\\
+    \leq &\bar{p}\bigg(\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))\nonumber\\
+    \quad&
+    -Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2dE(s)\bigg)^{\frac{1}{2}}\nonumber\\
+    \leq & \bar{p}\bigg(\frac{\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}}{2\bar{p}}+2\bar{p}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}\big|g(s,Y(s))\nonumber\\
+    \quad&
+    -g_{h}(\bar{\tau}(s),\bar{X}(s))-Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2dE(s)\bigg)\nonumber\\
+    \leq &\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}+2\bar{p}^{2}\int^{t\wedge\theta_{\ell}}_{0}\bigg(|e(s)|^{\bar{p}-2}\big|g(s,Y(s))\nonumber\\
+    \quad&
+    -g_{h}(\bar{\tau}(s),{X}(s))+\tilde{R}_{g_h}(s,X(s),\bar{X}(s))\big|^2\bigg)dE(s),
+\end{align}
+这里最后一个不等式使用了\eqref{the2_12}.接下来, 对\eqref{mt}取期望有
+\begin{align}
+    \EE_W(M_{t\wedge \theta_{\ell}})=&\EE_W([M,M]_{t\wedge \theta_{\ell}})^{\frac{1}{2}}\nonumber\\
+    =&\EE_W\bigg(\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}+2\bar{p}^{2}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}\big|g(s,Y(s))\nonumber\\
+    &-g_{h}(\bar{\tau}(s),{X}(s))+\tilde{R}_{g_h}(s,X(s),\bar{X}(s))\big|^2dE(s)\bigg).
+\end{align}
+联立\eqref{error}和\eqref{mt}可得
+\begin{align*}
+    \label{err226}
+    &\EE_W\left(\sup_{0\leq t\leq T}|e(t\wedge \theta_{\ell})|^{\bar{p}}\right)\\
+    \leq&\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(|e(s)|^{\mathrm{T}}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\\
+    \quad& +\frac{\bar{p}-1}{2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),\bar{X}(s))-Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))\big|^2 \bigg)dE(s)\\
+    \quad&
+    +\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}+2\bar{p}^{2}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),X(s))\\
+    \quad&
+    +\tilde{R}_{g_h}(s,X(s),\bar{X}(s))\big|^2dE(s)\bigg)\\
+    \leq&\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(|e(s)|^{\mathrm{T}}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\\
+    \quad& +\frac{\bar{p}-1}{2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),X(s))+\tilde{R}_{g_h}(s,X(s),\bar{X}(s))\big|^2\bigg)dE(s)\\
+    \quad&
+    +\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}+2\bar{p}^{2}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}\big|g(s,Y(s))-g_{h}(\bar{\tau}(s),X(s))\\
+    \quad&
+    +\tilde{R}_{g_h}(s,X(s),\bar{X}(s))\big|^2dE(s)\bigg).
+\end{align*}
+这里第二项应用了\eqref{the2_12}. 然后整理上述方程可得
+\begin{align}
+    &\EE_W\left(\sup_{0\leq t\leq T}|e(t)\wedge \theta_{\ell})|^{\bar{p}}\right)\nonumber\\
+    \leq&\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(|e(s|^{\mathrm{T}}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\nonumber\\
+    \quad& +(\bar{p}-1)|g(s,Y(s))-g_{h}(\bar{\tau}(s),X(s))|^{2}\nonumber\\
+    \quad &+(\bar{p}-1)
+    |\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2\bigg)dE(s)+\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}\nonumber\\
+    \quad &+\bar{p}|e(s)|^{\bar{p}-2}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bigg(4\bar{p}|g(s,Y(s))-g_{h}(\bar{\tau}(s),X(s))|^{2}\nonumber\\
+    \quad&
+    +4\bar{p}|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2\bigg)dE(s)\bigg)\nonumber\\
+    \leq&\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(|e(s)|^{\mathrm{T}}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\nonumber\\
+    \quad& +(5\bar{p}-1)|g(s,Y(s))-g_{h}(\bar{\tau}(s),X(s))|^{2}\bigg)dE(s)+\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}\nonumber\\
+    \quad&
+    +\bar{p}(5\bar{p}-1)\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2} |\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2dE(s)\bigg).   
+\end{align}
+上式推导中, 最后两项通过使用基本不等式$(a+b)^{2}\leq2(a^{2}+b^{2})$并进行合并得到.
+接下来, 我们通过整理方程, 对任意$a,b\geq 0$和$ \varepsilon>0$使用Young不等式$(a+b)^{2}\leq (1+\varepsilon)a^{2}+(1+1/\varepsilon)b^{2}$, 并在第二项中选择$ \varepsilon =(5p-5\bar{p})/(5\bar{p}-1)$, 故能从\eqref{err226}中得到
+\begin{align}
+    \label{err2}
+    &\EE_W\left(\sup_{0\leq t\leq T}|e(t\wedge \theta_{\ell})|^{\bar{p}}\right)\nonumber\\
+    \leq&\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(|e(s)|^{\mathrm{T}}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\nonumber\\
+    \quad& +(5\bar{p}-1)\big|g(s,Y(s))-g(s,X(s))+g(s,X(s))\nonumber\\
+    \quad&
+    -g_{h}(\bar{\tau}(s),X(s))\big|^{2}\bigg)dE(s)+\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}\nonumber\\
+    \quad&+(5{\bar{p}}^{2}-\bar{p})\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2dE(s)\bigg)\nonumber\\
+    \leq&\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(|e(s)|^{\mathrm{T}}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\nonumber\\
+    \quad& +(5\bar{p}-1)\bigg((1+\dfrac{5p-5\bar{p}}{5\bar{p}-1})|g(s,Y(s))-g(s,X(s))|^{2}\nonumber\\
+    \quad&
+    +(1+\dfrac{5\bar{p}-1}{5p-5\bar{p}})|g(s,X(s))-g_{h}(\bar{\tau}(s),X(s))|^{2}\bigg)dE(s)\nonumber\\
+    \quad&
+    +\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}+(5{\bar{p}}^{2}-\bar{p})\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}\nonumber\\
+    \quad& \times|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2dE(s)\bigg)\nonumber\\
+    \leq&\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(|e(s)|^{\mathrm{T}}\left(f(s,Y(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\nonumber\\
+    \quad& +(5p-1)|g(s,Y(s))-g(s,X(s))|^{2}
+    +\dfrac{5p-1}{5p-5\bar{p}}|g(s,X(s))\nonumber\\
+    \quad&
+    -g_{h}(\bar{\tau}(s),X(s))|^{2}\bigg)dE(s)+\frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}\nonumber\\
+    \quad&+(5{\bar{p}}^{2}-\bar{p})\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}-2}|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2dE(s)\bigg).
+\end{align}
+根据不等式的基本性质, 从\eqref{err2}可得
+\begin{align}
+    \label{sup}
+    &\EE_W\left(\sup_{0\leq t\leq T}|e( t\wedge\theta_{\ell})|^{\bar{p}}\right)\nonumber\\
+    \leq& \frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}
+    +\EE_W\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{\mathrm{T}}(s)\big(f(s,Y(s))\nonumber\\
+    &-f(s,X(s))\big)
+    +(5p-1)|g(s,Y(s))-g(s,X(s))|^2\bigg)dE(s)\nonumber\\
+    &+\EE_W\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{\mathrm{T}}(s)\big(f(s,X(s))-f_{h}(\bar{\tau}(s),X(s))\big)\nonumber\\
+    \quad &+\dfrac{5p-1}{5p-5\bar{p}}|g(s,X(s))-g_{h}(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\nonumber\\
+    &+\EE_W\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}(5\bar{p}^{2}-p)|e(s)|^{\bar{p}-2}|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2dE(s)\nonumber\\
+    \leq& \frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}+[J_1]+[J_2]+[J_3],
+\end{align}
+其中
+\begin{align*}
+    J_1&:=\EE_W \bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{\mathrm{T}}(s)\big(f(s,Y(s))-f(s,X(s))\big)\\
+    &\quad+(5p-1)|g(s,Y(s))-g(s,X(s))|^2\bigg)dE(s)\bigg),
+\end{align*}
+\begin{align*}
+    J_2&:=\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{\mathrm{T}}(s)\left(f(s,X(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\right)\\
+    &\quad+\frac{5p-1}{5p-5\bar{p}}|g(s,X(s))-g_{h}(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\bigg),
+\end{align*}
+\begin{align*}
+    \begin{split}
+        J_3&:=\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}(5\bar{p}^{2}-p)|e(s)|^{\bar{p}-2}|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2dE(s)\bigg).
+    \end{split}
+\end{align*}
+根据假设\ref{ass2}可推导出
+\begin{align}
+    \label{J1}
+    J_1\leq H_1\int^{T}_{0}\EE_W|e(s)|^{\bar{p}}dE(s),
+\end{align}
+其中$H_1=\bar{p}K$. 接下来, 我们处理 $J_{2}$.
+\begin{align}
+    \label{lemm330}
+    J_2&= \EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f(s,X(s))-f_h(\bar{\tau}(s),\bar{X}(s))\big)\nonumber\\
+    &\quad+\dfrac{5p-1}{5p-5\bar{p}}|g(s,X(s))-g_h(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\bigg)\nonumber\\
+    &\leq \EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f(s,X(s))-f(\bar{\tau}(s),X(s))\big)\nonumber\\
+    &\quad+\dfrac{5p-1}{5p-5\bar{p}}|g(s,X(s))-g(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\nonumber\\
+    &\quad+\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f(\bar{\tau}(s),X(s))-f_h(\bar{\tau}(s),\bar{X}(s))\big)\nonumber\\
+    &\quad+\dfrac{5p-1}{5p-5\bar{p}}|g(\bar{\tau}(s),X(s))-g_h(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\bigg)\nonumber\\
+    &\leq J_{21}+J_{22},
+\end{align}
+通过使用假设\ref{ass4}和基本不等式的性质, Young不等式即对任意$0\leq t\leq t\wedge\theta_{\ell}\leq T $,
+\begin{align*}
+    a^{p-2}b\leq \frac{p-2}{p}a^p + \frac{2}{p}b^{p/2},\quad \forall a,b \geq 0.
+\end{align*}
+可以推出
+\begin{align}
+    \label{lemm331}
+    J_{21}& =
+    \EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(\frac{1}{2}|e(s)|^2+\frac{1}{2}|f(s,X(s))-f(\bar{\tau}(s),X(s))|^2\nonumber\\
+    &\quad+\dfrac{5p-1}{5p-5\bar{p}}|g(s,X(s))-g(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\bigg)\nonumber\\
+    &\leq
+    C\bigg(\EE_W\sup_{0\leq t\leq T}\bigg(\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}}dE(s)+ \int^{t\wedge\theta_{\ell}}_{0}|f(s,X(s))-f(\bar{\tau}(s),X(s))|^{\bar{p}}dE(s)\nonumber\\
+    &\quad +\int^{t\wedge\theta_{\ell}}_{0}|g(s,X(s))-g(\bar{\tau}(s),X(s))|^{\bar{p}}\bigg)dE(s)\bigg)\nonumber\\
+    &\leq
+    C\bigg(\EE_W\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)
+    +\EE_W\int^{T}_{0}H_1^{\bar{p}}(1+|X(s)|^{(1+\a)\bar{p}})h ^{\gamma_f\bar{p}}dE(s)\nonumber\\
+    &\quad  +\EE_W\int^{T}_{0}H_2^{\bar{p}}(1+|X(s)|^{(1+\a)\bar{p}})h^{\gamma_g\bar{p}})dE(s)\bigg)\nonumber\\
+    &\leq
+    C\bigg(\EE_W\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)
+    +h^{\gamma_f\bar{p}}E(T)+h^{\gamma_g\bar{p}}E(T)\bigg).
+\end{align}
+其中最后一个不等式通过使用引理\ref{lemma3}得到. 接着, 我们根据不等式的基本性质处理$J_{22}$项, 可得
+\begin{align}
+    \label{lem332}
+    J_{22}&= \EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f(\bar{\tau}(s),X(s))-f(\bar{\tau}(s),\bar{X}(s))\big)\bigg)dE(s)\nonumber\\
+    &\quad+
+    \sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f(\bar{\tau}(s),\bar{X}(s))-f_{h}(\bar{\tau}(s),\bar{X}(s))\big)\nonumber\\
+    &\quad+\dfrac{5p-1}{5p-5\bar{p}}|g(\bar{\tau}(s),X(s))-g_h(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\bigg)\nonumber\\
+    &\leq I_1+ I_2.
+\end{align}
+对$I_1$, 根据\eqref{le210}和Young不等式可推导出
+\begin{align}
+    \label{333}
+    I_{1}&=\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f(\bar{\tau}(s),X(s))-f(\bar{\tau}(s),\bar{X}(s))\big)\bigg)dE(s)\bigg)\nonumber\\
+    &\leq  \EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f^{'}(\bar{\tau}(s),x)|_{x=\bar{X}(s)}\nonumber\\
+    &\quad \times \int^{s}_{0}g_h(\bar{\tau}(s_{1}),\bar{X}(s_{1}))dW(E(s_{1}))+\tilde{R}_{f}(s,X(s),\bar{X}(s))\big)\bigg)dE(s)\bigg)\nonumber\\
+    &\leq 
+    H_{21}\EE_W\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bigg(|e(s)|^{\bar{p}}+\big|e(s)^{T}(f^{'}(\bar{\tau}(s),x)|_{x=\bar{X}(s)}\nonumber\\
+    &\quad \times \int^{s}_{0}g_h(\bar{\tau}(s_{1}),\bar{X}(s_{1}))dW(E(s_{1}))\big|^{\frac{\bar{p}}{2}}+|e(s)^{T}\tilde{R}_{f}(s,X(s),\bar{X}(s))|^{{\frac{\bar{p}}{2}}}\bigg)dE(s)\bigg)\nonumber\\
+    &\leq  H_{21}\bigg(\EE_W\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bigg(|e(s)|^{\bar{p}}dE(s)+\big|e(s)^{T}(f^{'}(\bar{\tau}(s),x)|_{x=\bar{X}(s)}\nonumber\\
+    &\quad \times \int^{s}_{0}g_h(\bar{\tau}(s_{1}),\bar{X}(s_{1}))dW(E(s_{1}))\big|^{\frac{\bar{p}}{2}}dE(s)+|\tilde{R}_{f}(s,X(s),\bar{X}(s))|^{\bar{p}}dE(s)\bigg).   
+\end{align}
+再通过应用类似文献\cite{Wang2013466}中(3.35)的方法, 并结合\eqref{333}和引理 \ref{lemma5}可以得到
+\begin{align}
+    \label{335}
+    I_{1}&\leq H_{21}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+\EE_{W}\int^{T}_{0}|\tilde{R}_{f}(s,X(s),\bar{X}(s))|^{\bar{p}}dE(s)+h^{\bar{p}}\bigg)\nonumber\\
+    &\leq 
+    H_{21}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+\int^{T}_{0}\EE_{W}|\tilde{R}_{f}(s,X(s),\bar{X}(s))|^{\bar{P}}dE(s)+h^{\bar{p}}\bigg)\nonumber\\
+    &\leq 
+    H_{21}\bigg(\EE_{W}\int^{T}_{0}|e(s)^{\bar{p}}dE(s))+h^{\bar{p}}(k(h))^{2\bar{p}}+h^{\bar{p}}\bigg).
+\end{align} 
+然后对$I_2$应用Young不等式、假设\ref{ass1}和 H{\"o}lder 不等式可得
+ \begin{align*}
+     I_{2}&=\EE_{W}\bigg(\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\bar{p}|e(s)|^{\bar{p}-2}\bigg(e^{T}(s)\big(f(\bar{\tau}(s),\bar{X}(s))-f_h(\bar{\tau}(s),\bar{X}(s))\big)\\
+     &\quad+\dfrac{5p-1}{5p-5\bar{p}}|g(\bar{\tau}(s),X(s))-g_h(\bar{\tau}(s),X(s))|^2\bigg)dE(s)\bigg)\\
+     &\leq 
+     H_{22}\bigg(\EE_{W}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}}dE(s)+\EE_{W}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|f(\bar{\tau}(s),\bar{X}(s))\\
+     &\quad-f_h(\bar{\tau}(s),\bar{X}(s))|^{\bar{p}}+|g(\bar{\tau}(s),X(s))-g_h(\bar{\tau}(s),X(s))|^{\bar{p}}dE(s)\bigg)\\
+     &\leq 
+     H_{22}\bigg(\EE_{W}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}|e(s)|^{\bar{p}}dE(s)+\EE_{W}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}\big(1+|\bar{X}(s)|^{\a\bar{p}}\\
+     &\quad +\big||\bar{X}(s)|\wedge \mu ^{-1}(k(h))\big|^{\a\bar{p}}\big) \bigg|\bar{X}(s)-\big(|\bar{X}(s)|\wedge \mu ^{-1}(k(h))\big)\frac{\bar{X}(s)}{|\bar{X}(s)|}\bigg|^{\bar{p}}dE(s)\\
+     &\quad + \EE_{W}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}(1+|X(s)|^{\a\bar{p}}+\big||X(s)|\wedge \mu ^{-1}(k(h))\big|^{\a\bar{p}})\\
+     &\quad \times \bigg|X(s)-\big(|X(s)|\wedge \mu ^{-1}(k(h))\big)\frac{X(s)}{|X(s)|}\bigg|^{\bar{p}}dE(s) \bigg)\\
+     &\leq 
+     H_{22}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+\int^{T}_{0}\bigg(\EE_{W}\bigg[1+|\bar{X}(s)|^{q}+\big||\bar{X}(s)|\wedge \mu ^{-1}(k(h))\big|^{q}\bigg]\bigg)^{\frac{\a\bar{p}}{q}}\\
+     &\quad \times \bigg[\EE_{W}\big|\bar{X}(s)-\big(|\bar{X}(s)|\wedge \mu ^{-1}(k(h))\big)\frac{\bar{X}(s)}{|\bar{X}(s)|}\big|^{\frac{q\bar{p}}{q-\a\bar{p}}}\bigg]^{\frac{q-\a\bar{p}}{q}}dE(s)\\
+     &\quad + \int^{T}_{0}\bigg(\EE_{W}\bigg[1+|X(s)|^{q}+\big||X(s)|\wedge \mu ^{-1}(k(h))\big|^{q}\bigg]\bigg)^{\frac{\a\bar{p}}{q}}\\
+     &\quad \times\bigg[\EE_{W} \big|X(s)-\big(|X(s)|\wedge \mu ^{-1}(k(h))\big)\frac{X(s)}{|X(s)|}\big|^{\frac{q\bar{p}}{q-\a\bar{p}}}\bigg]^{\frac{q-\a\bar{p}}{q}}dE(s) \bigg),
+ \end{align*}
+上述证明中引理\ref{lemma3}被使用到. 再通过H{\"o}lder不等式和Chebyshev不等式$ \PP(|x|\geqslant a) \leqslant a^{-q} \EE|x|^{q}$(其中$a>0,q>0$), 可得
+\begin{align}
+    \label{336}
+    I_{2}&\leq 
+    H_{22}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)\nonumber\\
+    &\quad+\int^{T}_{0}\bigg(\EE_{W}\big|I\left\{|\bar{X}(s)|>\mu^{-1}(k(h))\right\}|\bar{X}(s)|^{\frac{q\bar{p}}{q-\a\bar{p}}}\big|\bigg)^{\frac{q-\a\bar{p}}{q}}dE(s)\nonumber\\
+    &\quad+\int^{T}_{0}\bigg(\EE_{W}\big|I\left\{|X(s)|>\mu^{-1}(k(h))\right\}|X(s)|^{\frac{q\bar{p}}{q-\a\bar{p}}}\big|\bigg)^{\frac{q-\a\bar{p}}{q}}dE(s)\bigg)\nonumber\\
+    &\leq 
+    H_{22}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)\nonumber\\
+    &\quad+\int^{T}_{0}\bigg(\big[P\left\{|\bar{X}(s)|>\mu^{-1}(k(h))\right\}\big]^{\frac{q-\a\bar{p}-\bar{p}}{q-\a\bar{p}}} \big[\EE|\bar{X}(s)|^{q}\big]^{\frac{\bar{p}}{q-\a\bar{p}}}\bigg)^{\frac{q-\a\bar{p}}{q}}dE(s)\nonumber\\
+    &\quad+\int^{T}_{0}\bigg(\big[P\left\{|X(s)|>\mu^{-1}(k(h))\right\}\big]^{\frac{q-\a\bar{p}-\bar{p}}{q-\a\bar{p}}}[\EE|X(s)|^{q}]^{\frac{\bar{p}}{q-\a\bar{p}}}\bigg)^{\frac{q-\a\bar{p}}{q}}dE(s)\bigg)\nonumber\\
+    &\leq 
+    H_{22}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+\int^{T}_{0}\bigg(\frac{\EE_{W}|\bar{X}(s)|^{q}}{|\mu^{-1}(k(h))|^{q}}\bigg)^{\frac{q-\a\bar{p}-\bar{p}}{q}}dE(s)\nonumber\\
+    &\quad+\int^{T}_{0}\bigg(\frac{\EE_{W}|X(s)|^{q}}{|\mu^{-1}(k(h))|^{q}}\bigg)^{\frac{q-\a\bar{p}-\bar{p}}{q}}dE(s)\bigg)\nonumber\\
+    &\leq 
+    H_{22}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+\big(\mu^{-1}(k(h))\big)^{(\a+1)\bar{p}-q}\bigg).
+\end{align}
+将\eqref{335} 和 \eqref{336} 代入\eqref{lem332} 可得
+\begin{align}
+    \label{lemm337}
+    J_{22}\leq  H_{22}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+\big(\mu^{-1}(k(h))\big)^{(\a+1)\bar{p}-q}+h^{\bar{p}}(k(h))^{2\bar{p}}+h^{\bar{p}}\bigg).
+\end{align} 
+对于$J_3$的处理, 我们通过应用Young不等式和引理\ref{lemma5}可推出
+\begin{align}
+    \label{J3}
+    J_3&= \EE_{W}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}(5\bar{p}^{2}-\bar{p})|e(s)|^{\bar{p}-2}|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^2dE(s)\nonumber\\
+    &\leq 
+    H_{3}\EE_{W}\sup_{0\leq t\leq T}\int^{t\wedge\theta_{\ell}}_{0}(|e(s)|^{\bar{p}}+|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^{\bar{p}})dE(s)\nonumber\\
+    &\leq 
+    H_{3}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+\int^{T}_{0}\EE_{W}|\tilde{R}_{g_h}(s,X(s),\bar{X}(s))|^{\bar{p}}dE(s)\bigg)\nonumber\\
+    &\leq 
+    H_{3}\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+h^{\bar{p}}(k(h))^{2\bar{p}}\bigg).
+\end{align}
+其中$H_{21}$、$H_{22}$、$H_{3}$ 和下面的C都是与$h$无关的正常数, 其值可能会在每行之间发生变化. 最后联立方程\eqref{sup}、\eqref{J1}、\eqref{lemm330}、\eqref{lemm331}、 \eqref{lemm337}、\eqref{J3}可将原始式子写为
+\begin{align*}
+    \EE_W\left(\sup_{0\leq t\leq T}|e( t\wedge\theta_{\ell})|^{\bar{p}}\right)\leq& \frac{1}{2}\sup_{0\leq r\leq t\wedge\theta_{\ell}}|e(r)|^{\bar{p}}+[J_1]+[J_2]+[J_3]\\
+    \leq&
+    2([J_1]+[J_2]+[J_3])\\
+    \leq  &
+    C\bigg(\EE_{W}\int^{T}_{0}|e(s)|^{\bar{p}}dE(s)+h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}\\
+    &\quad+h^{\bar{p}}(k(h))^{2\bar{p}}+h^{\bar{p}}+\big(\mu^{-1}(k(h))\big)^{(\a+1)\bar{p}-q}\bigg)\\
+    \leq &
+    C\bigg(\int^{T}_{0}\EE_{W}\sup_{0\leq u\leq s}|e(u\wedge\theta_{\ell} )|^{\bar{p}}dE(s)+h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}\\
+    &\quad+h^{\bar{p}}(k(h))^{2\bar{p}}+\big(\mu^{-1}(k(h))\big)^{(\a+1)\bar{p}-q}\bigg).
+\end{align*}
+再应用Gronwall不等式可得
+\begin{align*}
+    \EE_W(\sup_{0\leq t\leq T}|e( t\wedge\theta_{\ell})|^{\bar{p}})
+    &\leq 
+    C\bigg(h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}
+    +h^{\bar{p}}(k(h))^{2\bar{p}}+(\mu^{-1}(k(h)))^{(\a+1)\bar{p}-q}\bigg)e^{\l E(T)},
+\end{align*}
+通过令$n\to \infty$, 根据Fatou引理可得
+\begin{align*}
+    \EE_W(\sup_{0\leq t\leq T}|e(t)|^{\bar{p}})
+    &\leq 
+    C\bigg(h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}
+    +h^{\bar{p}}(k(h))^{2\bar{p}}+\big(\mu^{-1}(k(h))\big)^{(\a+1)\bar{p}-q}\bigg)e^{\l E(T)},
+\end{align*}
+其中$C$与$h$独立, 且$\l > 0$. 接着我们对两边同时取$\EE_D$得
+ \begin{align}
+     \label{EEW}
+    \EE\left( \sup_{0\leq t\leq T}|Y(t)-X(t)|^{\bar{p}}\right)\leq C\bigg(h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}
+    +h^{\bar{p}}(k(h))^{2\bar{p}}+\big(\mu^{-1}(k(h))\big)^{(\a+1)\bar{p}-q}\bigg).
+\end{align}
+再联立引理\ref{lemma2}和\eqref{EEW}可得
+\begin{align*}
+    \EE\left( \sup_{0\leq t\leq T}|Y(t)-\bar{X}(t)|^{\bar{p}}\right)\leq C\bigg(h^{\gamma_f\bar{p}}+h^{\gamma_g\bar{p}}
+    +h^{\bar{p}}(k(h))^{2\bar{p}}+\big(\mu^{-1}(k(h))\big)^{(\a+1)\bar{p}-q}\bigg).
+\end{align*}
+最后通过选择适当$\mu^{-1}(\cdot)$和$\kappa(\cdot)$, 完成证明.
+\end{proof}
+

@@ -1,0 +1,81 @@
+\section{第一章}
+\subsection{第一节}
+
+\begin{thmblock}
+	设函数 $f(x)$ 在点 $x_0$ 的某个邻域内有定义，如果对于任意 $\varepsilon > 0$，存在 $\delta > 0$，使得当 $0 < |x - x_0| < \delta$ 时，有
+	\[
+	\left|\frac{f(x) - f(x_0)}{x - x_0}\right| < \varepsilon
+	\]
+	成立，那么称函数 $f(x)$ 在点 $x_0$ 处可导，并且导数为 0。
+\end{thmblock}
+
+\begin{thmblock}
+	设函数 $f(x)$ 在区间 $[a,b]$ 上连续，在 $(a,b)$ 内可导，且 $f(a)=f(b)$，则至少存在一点 $\xi \in (a,b)$，使得 $f'(\xi)=0$。这就是罗尔(Rolle)定理。
+\end{thmblock}
+
+\begin{defblock}
+设函数 $f(x)$ 在点 $x_0$ 的某个邻域内有定义，如果对于任意 $\varepsilon > 0$，存在 $\delta > 0$，使得当 $|x - x_0| < \delta$ 时，有
+\[
+|f(x) - f(x_0)| < \varepsilon
+\]
+成立，那么称函数 $f(x)$ 在点 $x_0$ 处连续。这就是函数连续性的 $\varepsilon-\delta$ 定义。
+\end{defblock}
+
+\begin{lemmablock}
+	设函数 $f(x)$ 在区间 $[a,b]$ 上连续，$g(x)$ 在区间 $[a,b]$ 上可导，且对任意 $x \in [a,b]$，都有 $|f(x)| \leq M$，$|g'(x)| \leq N$，其中 $M,N$ 为正常数，则有:
+	\[
+	\left|\int_a^b f(x)g'(x)dx\right| \leq MN(b-a)
+	\]
+	这个不等式称为积分估值引理。
+\end{lemmablock}
+
+\begin{propblock}
+	设函数 $f(x)$ 在区间 $[a,b]$ 上连续，在 $(a,b)$ 内可导，且存在 $M>0$，使得对任意 $x \in (a,b)$，都有 $|f'(x)| \leq M$，则对任意 $x_1,x_2 \in [a,b]$，有:
+	\[
+	|f(x_1) - f(x_2)| \leq M|x_1 - x_2|
+	\]
+	这就是利普希茨(Lipschitz)条件。
+\end{propblock}
+
+\begin{colblock}
+	设函数 $f(x)$ 在区间 $[a,b]$ 上连续，在 $(a,b)$ 内可导，且存在 $M>0$，使得对任意 $x \in (a,b)$，都有 $|f'(x)| \leq M$，则对任意 $x_1,x_2 \in [a,b]$，有:
+	\[
+	|f(x_1) - f(x_2)| \leq M|x_1 - x_2|
+	\]
+	这就是利普希茨(Lipschitz)条件。
+\end{colblock}
+
+\begin{quesblock}
+    设函数 $f(x)$ 在区间 $[a,b]$ 上连续，且在 $x=a$ 和 $x=b$ 处的导数都存在。证明:
+    存在 $\xi \in (a,b)$，使得
+    \[
+    f'(\xi) = \frac{f'(b) - f'(a)}{b-a}
+    \]
+\end{quesblock}
+
+\begin{solblock}
+解：令 $g(x) = f'(x) - \frac{f'(b)-f'(a)}{b-a}(x-a) - f'(a)$
+
+则 $g(a) = f'(a) - f'(a) = 0$
+$g(b) = f'(b) - \frac{f'(b)-f'(a)}{b-a}(b-a) - f'(a) = 0$
+
+由罗尔定理可知，存在 $\xi \in (a,b)$，使得 $g'(\xi) = 0$
+
+即 $f''(\xi) - \frac{f'(b)-f'(a)}{b-a} = 0$
+
+所以 $f''(\xi) = \frac{f'(b)-f'(a)}{b-a}$
+
+证毕。
+
+\end{solblock}
+
+
+
+\begin{markerblock}
+这是一个标记框
+\end{markerblock}
+
+\begin{tipsblock}[title=提示]
+    这是一个提示框
+\end{tipsblock}   
+

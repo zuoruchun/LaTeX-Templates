@@ -1,0 +1,59 @@
+This is BibTeX, Version 0.99d (TeX Live 2020/W32TeX)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: WRX-Thesis.aux
+The style file: shnuthesis-numeric-authors.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 150 items from 100.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: mybib.bib
+I was expecting a `,' or a `}'---line 8 of file mybib.bib
+ :     
+ :     address = {Cambridge}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 40 entries,
+            5246 wiz_defined-function locations,
+            1278 strings with 14907 characters,
+and the built_in function-call counts, 300832 in all, are:
+= -- 5820
+> -- 34900
+< -- 44470
++ -- 12300
+- -- 1899
+* -- 1722
+:= -- 41574
+add.period$ -- 120
+call.type$ -- 40
+change.case$ -- 77
+chr.to.int$ -- 11031
+cite$ -- 40
+duplicate$ -- 916
+empty$ -- 2429
+format.name$ -- 1140
+if$ -- 78225
+int.to.chr$ -- 2
+int.to.str$ -- 41
+missing$ -- 0
+newline$ -- 215
+num.names$ -- 120
+pop$ -- 16074
+preamble$ -- 1
+purify$ -- 40
+quote$ -- 0
+skip$ -- 31270
+stack$ -- 0
+substring$ -- 13766
+swap$ -- 42
+text.length$ -- 652
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 490
+warning$ -- 0
+while$ -- 833
+width$ -- 0
+write$ -- 583
+(There was 1 error message)

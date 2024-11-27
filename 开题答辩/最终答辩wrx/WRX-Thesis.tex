@@ -1,0 +1,245 @@
+% !TEX program = xelatex
+% 使用 texlive 完整编译:
+% xelatex -> bibtex -> xelatex -> xelatex
+% SHNU-Thesis 上海师范大学研究生毕业论文 LaTeX 模板
+
+\documentclass[master]{shnuthesis}
+% master 硕士学位论文, 默认可省略
+% doctor 博士学位论文, 不能省略
+% arts 文科学位论文, 默认缺省为理科
+% print 用于打印, 封面等生成空白页
+% 提交给图书馆的电子版不要选 print
+
+%----- 论文标题、作者、导师、日期等相关信息 -----
+\title{一类高非线性非自治时间变换随机微分方程的Milstein型方法}
+\author{*~*~*}   % 作者姓名
+\date{二~~〇~~二~~四~~年~~三~~月 }  % 完成日期
+\institute{数~~理~~学~~院}  % 学院名称
+\major{计~~算~~数~~学}  % 专业名称
+\research{随~机~微~分~方~程~数~值~解}  % 研究方向
+\studentID{******}   % 学号
+\advisor{*~*~*}  % 导师姓名
+
+%----- 设置英文字体 -----
+%\usepackage{newtxtext}  % New TX font for text
+%\setmainfont{TeX Gyre Termes}  % Times New Roman 的开源复刻版本
+%\setsansfont{TeX Gyre Heros}   % Helvetica 的开源复刻版本
+%\setmonofont{TeX Gyre Cursor}  % Courier New 的开源复刻版本
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+%\setmonofont{Courier New}
+
+%----- 设置数学字体 -----
+%\usepackage{newtxmath}
+%\usepackage{mathptmx}
+
+%----- 添加其他宏包 -----
+\usepackage{listings}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{marvosym}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{lineno}
+\usepackage{float}
+\usepackage{epstopdf}
+\usepackage{color}
+\usepackage{amsmath} 
+\allowdisplaybreaks[4]
+\usepackage{lineno,hyperref}
+\modulolinenumbers[1]
+\usepackage{tcolorbox}
+
+%----- 取消链接颜色和方框 -----
+%\hypersetup{hidelinks}
+
+%----- 参考文献格式 -----
+%\bibliographystyle{plain} % abbrv, unsrt, siam
+%\bibliographystyle{shnuthesis-numeric}
+%\bibliographystyle{shnuthesis-author-year}
+\bibliographystyle{shnuthesis-numeric-authors}
+
+%----- 参考文献引用格式 -----
+\citestyle{numbers}
+%\citestyle{super}
+%\citestyle{authoryear}
+
+%----- 调整列表项的间距 -----
+%\setlength{\itemsep}{3pt}
+
+%----- 调整页面避免出现过大空白 -----
+%\raggedbottom
+
+%----- 定义符号描述命令  -----
+\newcommand{\nameditem}[3][]{
+\noindent\hspace{2em}\makebox[0.2\textwidth][l]{#2}{{#3}
+\hfill\makebox[0.2\textwidth][l]{#1}\hspace*{2em}}\par}
+
+%----- 微分算子 -----
+\newcommand*{\dif}{\mathop{}\!\mathrm{d}}
+
+%----- 自定义命令 -----
+\newcommand{\CC}{\ensuremath{\mathbb{C}}}
+\newcommand{\RR}{\ensuremath{\mathbb{R}}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\bA}{\boldsymbol{A}}
+\newcommand{\ii}{\mathrm{i}\,}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\dx}[1][x]{\mathop{}\!\mathrm{d}#1}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\SM}{\mathbb{S}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\ind}{\mathbf{1}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\KK}{\mathcal{K}}
+\def\F{{\cal F}}
+\def\G{{\cal G}}
+\def\P{{\cal P}}
+
+\newtheorem{expl}[theorem]{Example}
+\newtheorem{rmk}[theorem]{Remark}
+\newtheorem{conj}[theorem]{Conjecture}
+\newtheorem{Proof}[theorem]{Proof}
+
+\newcommand\tq{{\scriptstyle{3\over 4 }\scriptstyle}}
+\newcommand\qua{{\scriptstyle{1\over 4 }\scriptstyle}}
+\newcommand\hf{{\textstyle{1\over 2 }\displaystyle}}
+\newcommand\hhf{{\scriptstyle{1\over 2 }\scriptstyle}}
+\newcommand\hei{\tfrac{1}{8}}
+
+\newcommand{\eproof}{\indent\vrule height6pt width4pt depth1pt\hfil\par\medbreak}
+
+\begin{document}
+\def\a{\alpha}
+\def\e{\varepsilon} \def\z{\zeta} \def\y{\eta} \def\o{\theta}
+\def\vo{\vartheta} \def\k{\kappa} \def\l{\lambda} \def\m{\mu} \def\n{\nu}
+\def\x{\xi}  \def\r{\rho} \def\s{\sigma}
+\def\p{\phi} \def\f{\varphi}   \def\w{\omega}
+\def\q{\surd} \def\i{\bot} \def\h{\forall} \def\j{\emptyset}
+
+\def\be{\beta} \def\de{\h} \def\up{\upsilon} \def\eq{\equiv}
+\def\ve{\vee} \def\we{\wedge}
+
+
+\def\D{\h} \def\O{\Theta} \def\L{\Lambda}
+\def\X{\Xi} \def\Si{\Sigma} \def\W{\Omega}
+\def\M{\partial} \def\N{\nabla} \def\Ex{\exists} \def\K{\times}
+\def\V{\bigvee} \def\U{\bigwedge}
+
+\def\1{\oslash} \def\2{\oplus} \def\3{\otimes} \def\4{\ominus}
+\def\5{\circ} \def\6{\odot} \def\7{\backslash} \def\8{\infty}
+\def\9{\bigcap} \def\0{\bigcup} \def\+{\pm} \def\-{\mp}
+\def\la{\langle} \def\ra{\rangle}
+
+
+\def\tl{\tilde}
+\def\trace{\hbox{\rm trace}}
+\def\diag{\hbox{\rm diag}}
+\def\for{\quad\hbox{for }}
+\def\refer{\hangindent=0.3in\hangafter=1}
+% 生成标题页
+\maketitle
+
+% 生成独创性与授权声明页, 此页可以放在最后
+\makestatement
+% 将签字扫描的声明页 statement.pdf 替换原始页面
+%\makestatement[file=statement.pdf]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter
+
+%%%%%%%%%%%%%% 中文摘要内容和关键字  %%%%%%%%%%%%%
+
+\input{part/cnabstract}
+
+%%%%%%%%%%%%%% 英文摘要内容和关键字 %%%%%%%%%%%%%
+
+\input{part/enabstract}
+
+
+%%%%%%%%%%%%%%%%%%%% 目录 %%%%%%%%%%%%%%%%%%%%%%
+
+% 生成目录
+\maketoc
+
+% 生成插图清单, 如不需要可以注释
+%\makelof
+
+% 生成表格清单, 如不需要可以注释
+%\makelot
+
+%%%%%%%%%%%%%%%%%% 主要符号表 %%%%%%%%%%%%%%%%%%
+
+% 如不需要可以注释
+\input{part/denotation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%% 正文内容 %%%%%%%%%%%%%%%%%%%
+
+%----- 第1章 引言 -----
+\input{part/chap01}
+
+%----- 第2章 LaTeX 常用环境 -----
+\input{part/chap02}
+
+%----- 第3章 微分方程的数值方法 -----
+\input{part/chap03}
+
+%----- 第4章 插图环境 -----
+\input{part/chap04}
+
+%----- 第5章 表格环境 -----
+\input{part/chap05}
+
+
+%%%%%%%%%%%%%%%%%%%% 参考文献 %%%%%%%%%%%%%%%%%%
+
+% 生成参考文献, 两种方式任选一种
+
+% 第一种方式, 使用 bib 文件
+%\nocite{*}  % 可以显示全部参考文献, 包括未引用的
+\bibliography{mybib}
+
+
+%---------------------------------------------%
+
+% 第二种方式, 手动添加文献信息
+%\input{part/bibliography}
+
+
+%%%%%%%%%%%%%%%%%%% 附录 %%%%%%%%%%%%%%%%%%%%%%
+
+% 添加附录, 如不需要可以注释
+%\input{part/appendix}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\backmatter  % 结束章节自动编号
+
+%%%%%%%%%%%% 攻读学位期间的研究成果  %%%%%%%%%%%%
+
+\input{part/publications}
+
+
+%%%%%%%%%%%%%%%%%%% 致谢 %%%%%%%%%%%%%%%%%%%%%%
+
+%\input{part/acknowledgement}
+
+
+\end{document}
+

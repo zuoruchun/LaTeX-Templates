@@ -1,0 +1,592 @@
+
+%%%%%%%%%%%%%%% LaTeX 常用环境 %%%%%%%%%%%%%%%
+
+\chapter{准备工作}\label{chap:LaTeXEnv}
+在这一章节中, 主要分为四个部分进行阐述:
+
+第一部分将对本文使用的符号及其含义进行解释说明.
+
+第二部分给出证明截断Milstein方法的收敛性并获得收敛阶所需的假设条件.
+
+第三部分具体阐述截断函数的定义, 同时详细介绍非自治时间变换随机微分方程截断Milstein方法的构造过程.
+
+第四部分列出一系列关键引理, 这些引理在证明截断Milstein方法的收敛阶主要结论时起到重要作用.
+
+\section{符号说明}
+在本文中, 定义 $(\Omega_W, \F^W,\PP_W)$为一个完备的概率空间, 其中$\{\F^W_t\}_{t \geq 0}$是右连续且递增的, $\F^W_0$包含所有 $\PP_W$空集, $W(t)$为该概率空间中定义的并适应$\F^W_t$的一维维纳过程, $\EE_W$表示关于$\PP_W$的期望. 定义另一个完备的概率空间$(\Omega_D, \F^D,\PP_D)$, 其中$D(t)$表示从$D(0) =0$开始在$(\Omega_D, \F^D,\PP_D)$上定义的一维$\{\F^D_t\}$适应L\'{e}vy过程, 其在$\left\{\F^D_t\right\}_{t \ge 0}$上严格递增, $\EE_D$表示关于$\PP_D$的期望. 更多关于$D(t)$的详细介绍和讨论可参考相关文献\cite{applebaum2009,ken1999}.
+
+在本文中, 假设$W(t)$ 和 $D(t)$ 是独立的. 定义乘积概率空间$(\Omega , \F, \PP):= (\Omega_W \times \Omega_D, F^W\otimes \F^D, \PP_W \otimes \PP_D)$, $\EE$ 表示概率测度$\PP$下的期望. 显然$\EE(\cdot) = \EE_D\EE_W (\cdot) = \EE_W\EE_D (\cdot)$. 
+对任意$x\in \RR^d$, $|x|$ 定义为欧几里得范数, $x^T$表示$x$的转置. 此外, 对任意两个实数 $a$和$b$, 我们使用符号$a\vee b=\max(a,b)$和$a\wedge b=\min(a,b)$. 对给定的集合 $G$, 其指示函数用$I_{G}$表示.
+
+由于$D(t)$是严格递增的, 定义$D(t)$的反函数为
+\begin{align*}
+    E(t) := \inf\{ s\geq0\,;\,D(s) > t \}, \quad t \geq 0.
+\end{align*}
+由$t\mapsto E(t)$是连续且非递减的, $E(t)$被称为时间变换过程, $W(E(t))$被称为时间变换的维纳过程, 同时$W(E(t))$也被视为一种亚扩散过程. 为了避免复杂的符号, 在本篇文章中, 我们考虑一维的 $W(E(t))$. 当 $W(t)$是一个多维的维纳过程且相同的$E(t)$被用于 $W(t)$ 的每个分量中进行时间变换时, 本文的结果仍然成立. 但是, 如果在 $W(t)$ 的不同分量中使用不同的 $E(t)$ 进行时间变换时, 我们的结果可能不适用.
+
+本文考虑的时间变换随机微分方程具有以下形式, 对任意$T>0$和$t\in [0,T]$,
+\begin{align}\label{SDE}
+    dY(t) = f(t,Y(t))dE(t) + g(t,Y(t))dW(E(t)),~~Y(0) = Y_0,
+\end{align}
+对所有$q > 0$都有$\EE |Y_0|^q < \infty$, 其中: $f: \RR_+ \times \RR^d \rightarrow \RR^d$ 且 $g: \RR_+ \times \RR^d \rightarrow \RR^{d}$. 
+
+在对\eqref{SDE}的系数施加假设之前, 我们首先提出一些有用的符号, 即对任意$y=(y^{1},y^{2},...,y^{d})^{T}$和$t \in [0, T]$, 定义
+\begin{align*}
+    Lg(t,y)=\sum_{l=1}^{d}g^{l}(t,y)G^{l}(t,y),
+\end{align*}
+其中$g=(g^{1},g^{2},...,g^{d})^{T}$, $g^{l}:\RR_+ \times \RR^d \rightarrow \RR$且
+\begin{align*}
+    G^{l}(t,y)=(\dfrac{\partial g^{1}(t,y)}{\partial y^{l}},\dfrac{\partial g^{2}(t,y)}{\partial y^{l}},...,\dfrac{\partial g^{d}(t,y)}{\partial y^{l}})^{T}.
+\end{align*}
+\par
+
+\section{假设条件}
+对时间变换随机微分方程\eqref{SDE}的系数施加如下的假设. 首先, 我们对漂移项和扩散项系数中的空间变量提出假设.
+\begin{assumption}
+    \label{ass1}
+    假设存在正常数 $\a$ 和 $C$, 使得
+    \begin{equation*}
+        |f(t,x)-f(t,y)|\vee |g(t,x)-g(t,y)|\vee |Lg(t,x)-Lg(t,y)|\leq C(1+|x|^{\a}+|y|^{\a})|x-y|,
+    \end{equation*}
+    对任意$t\in[0,T]$和$x,y \in \RR^d$成立.
+
+    从假设\ref{ass1} 可以推出, 对任意$t\in [0,T]$和$x\in \RR^d$, 有
+    \begin{equation}
+        \label{equ2-2}
+        |f(t,x)|\vee|g(t,x)|\vee|Lg(t,x)|\leq M(1+|x|^{\a+1}),
+    \end{equation}
+   其中$M$取决于 $C$ 和 $\sup_{0\leq t\leq T}\left(|f(t,0)|+|g(t,0)|+|Lg(t,0)|\right)$.
+\end{assumption}
+\par
+\begin{assumption}
+    \label{ass2}
+    假设存在一对常数 $p>2$ 和 $K>0$, 使得
+    \begin{equation*}
+        (x-y)^{\mathrm{T}}(f(t,x)-f(t,y)) +(5p-1)|g(t,x)-g(t,y)|^2\leq K|x-y|^2,
+    \end{equation*}
+    对任意$t\in [0,T]$和$x,y \in \mathbb{R}^d$成立.
+\end{assumption}
+\begin{assumption}
+    \label{ass3}
+    假设存在一对常数$q>2$和$K_1>0$, 使得
+    \begin{equation*}
+        x^{\mathrm{T}}f(t,x) +(5q-1)|g(t,x)|^2\leq K_1(1+|x|^2),
+    \end{equation*}
+    对任意 $t\in [0,T]$和$x \in \mathbb{R}^d$成立.
+\end{assumption}
+假设\eqref{ass3}可以从假设\eqref{ass2}中推导得出, 但由于其中涉及到复杂的关系, 其中包括$p$、$q$、$K$和$K_1$之间的关系, 为简化符号, 我们将假设\eqref{ass3}提出作为一个新的假设.
+\begin{assumption}
+    \label{ass5}
+    假设存在一个正常数$ M^{\prime}$, 使得
+    \begin{eqnarray*}
+        &&|\frac{\partial f(t,x)}{\partial x}|\vee|\frac{\partial^{2} f(t,x)}{\partial x^{2}}|\vee|\frac{\partial g(t,x)}{\partial x}|\vee|\frac{\partial^{2} g(t,x)}{\partial x^{2}}|\leq M^{\prime}(1+|x|^{\a+1}),
+    \end{eqnarray*}
+    对任意 $x\in \mathbb{R}^d$和$t\in [0,T]$成立.
+        
+接下来, 我们对漂移项和扩散项系数中时间变量进行假设.
+\end{assumption}
+\begin{assumption}
+    \label{ass4}
+    假设存在常数$\gamma_{f}\in (0,1]$, $\gamma_{g}\in (0,1]$, $H_1>0$ 和 $H_2>0$, 使得
+    \begin{eqnarray*}
+        &&|f(s,x)-f(t,x)|\leq H_1(1+|x|^{\a+1})(s-t)^{\gamma_{f}},\\
+        &&|g(s,x)-g(t,x)|\leq H_2(1+|x|^{\a+1})(s-t)^{\gamma_{g}},
+    \end{eqnarray*}
+    对任意$x,y \in \mathbb{R}^d$ 和 $s,t\in [0,T]$成立.
+    \par
+\end{assumption}
+
+\section{非自治时间变换随机微分方程的截断Milstein型方法}\label{sec:mathEqEnv}
+现在我们介绍本文讨论的Milstein型方法的构造过程.
+\par \noindent
+
+{\bf 第一步}根据时间变换随机微分方程系数的形式, 我们选择一个严格递增的连续函数$\m:\RR_+\rightarrow \RR_+$, 当$u\rightarrow \infty$时$\m(u)\rightarrow \infty$, 且对任意$l = 1,2, ...,d$有
+\begin{align*}
+    \sup_{0\leq t\leq T}\sup_{|x|\leq u}(|f(t,x)|\vee|g(t,x)|\vee|G^{l}(t,x)|)\leq \m(u),\quad \forall u\geq 1.
+\end{align*}
+\par \noindent
+
+{\bf 第二步}选择一个常数$\hat{\k}\geq 1\wedge \m(1)$ 和一个严格递减函数$\k:(0,1]\rightarrow [\m(1),\infty)$, 使得
+\begin{align}
+    \label{equ0}
+    \quad h^{1/4}\k(h)\leq \hat{\k},\quad \forall h \in (0,1],\quad\text{且}\lim_{h \rightarrow 0}\k(h)=\infty.
+\end{align}
+\par \noindent
+
+{\bf 第三步}定义$\m^{-1}$为$\m$的反函数, 显然$\m^{-1}$是一个从$[\m(0),\infty)$到$\RR_+$严格递增的连续函数. 对于给定的步长$h \in (0,1]$, 定义截断映射$\pi_{h}:\RR^d \rightarrow \{ x\in \RR^d:|x|\leq \m^{-1}(\k(h))\}$,
+\begin{align*}
+    \pi_{h}(x)=\left(|x|\wedge\m^{-1}(\k(h))\right)\frac{x}{|x|},
+\end{align*}
+当$x=0$时$x/|x|=0$. 然后通过以下方式定义截断函数:
+\begin{align*}
+    f_{h}(t,x)=f(t,\pi_{h}(x)),\quad g_{h}(t,x)=g(t,\pi_{h}(x)),\quad G^{l}_{h}(t,x)=G^{l}(t,\pi_{h}(x)).
+\end{align*}
+其中$x\in \RR^d$, $l = 1,2, ...,d$. 不难看出对任意 $t\in[0,T]$ 和$x \in \RR^d$有
+\begin{align}
+    \label{equ01}
+    |f_{h}(t,x)|\vee |g_{h}(t,x)|\vee |G^{l}_{h}(t,x)|\leq \m(\m^{-1}(\k(h)))=\k(h).
+\end{align}
+容易验证存在一个正常数$\hat{M}$, 使得
+\begin{eqnarray*}
+    &&|\frac{\partial f_{h}(t,x)}{\partial x}|\vee|\frac{\partial^{2} f_{h}(t,x)}{\partial x^{2}}|\vee|\frac{\partial g_{h}(t,x)}{\partial x}|\vee|\frac{\partial^{2} g_{h}(t,x)}{\partial x^{2}}|\leq \hat{M},
+\end{eqnarray*}
+对任意 $t\in[0,T]$ 和$x \in \RR^d$成立.
+\par \noindent
+
+{\bf 第四步}在有限时间区间$[0,T]$内对给定的$T>0$离散化过程$E(t)$. 对给定的步长$h$, 设$t_{i}=ih$, 令$\Delta_i$是独立同分布的序列并且满足$\Delta_i=D(h)$, 其中$i = 0, 1, 2,...$,  通过迭代$D_h(t_i) = D_h(t_{i-1} )+ \Delta_i$, $D_h(0) = 0$可以模拟出$D(t)$的样本路径, 我们在某个正整数$N$时停止迭代, 即当
+\begin{align*}
+    T \in [ D_h(t_{N}), D_h(t_{N+1})),
+\end{align*}
+成立时.
+\par
+{\bf 第五步}将离散化后的$E(t)$用$E_h(t)$表示, 通过以下方式定义为
+\begin{align}\label{findEht}
+    E_h(t) = \big(\min\{n; D_h(t_n) > t\} - 1\big)h,
+\end{align}
+其中$t\in [0,T]$. 不难看出当$\text{$t\in \left[ D_h(t_{i}),D_h(t_{i+1})\right)$时}E_h(t) = ih$.
+
+对$i = 1,2,...,N$, 定义$\tau _i = D_h(t_i)$, 可以得到
+\begin{align}\label{eq:Eh}
+    E_h(\tau _i) = E_h(D_h(t_i)) = ih.
+\end{align}
+\par 
+{\bf 第六步}设$X_0=Y(0)$, 定义Milstein方法的离散形式为
+\begin{align}\label{findXn}
+     X_{\tau_{n+1}}=&X_{\tau_{n}}+f_{h}(\tau_n,X_{\tau_{n}})\bigg(E_h(\tau_{n+1}) - E_h(\tau_n)\bigg)\nonumber \\
+    &+g_{h}(\tau_n,X_{\tau_{n}})\bigg(W(E_h(\tau_{n+1})) - W(E_h(\tau_n)) \bigg)\nonumber \\
+    &+\dfrac{1}{2}\sum_{l=1}^{d}g^{l}_{h}(\tau_n,X_{\tau_{n}})G^{l}_{h}(\tau_n,X_{\tau_{n}})\bigg(\Delta W^{2}(E_h(\tau_{n})) -\Delta(E_h(\tau_n)) \bigg).
+\end{align}
+需要注意的是, $\{\tau_n\}_{n=1,2,...,N}$是一个与维纳过程独立的随机序列. 此外, 从公式\eqref{eq:Eh}中容易得到
+\begin{align*}
+    E_h(\tau_{n+1}) - E_h(\tau_n) = h \text{和} W(E_h(\tau_{n+1})) - W(E_h(\tau_n)) = W((n+1)h) -W(nh).
+\end{align*}
+
+下面我们给出Milstein方法\eqref{findXn}的连续形式, 其在证明中将被使用到.
+\par
+对任意 $t\in[0,T]$和$x \in \RR^d$, 设
+\begin{align*}
+    Lg_h(t,x):=\sum_{l=1}^{d}g_h^{l}(t,x)G_h^{l}(t,x).
+\end{align*}
+故截断Milstein方法的连续形式为
+\begin{align}
+    \label{equ04}
+    X(t)=&X(0)+\int_{0}^{t}f_{h}{(\bar{\tau}(s),\bar{X}(s))dE(s)}+\int_{0}^{t}g_{h}{(\bar{\tau}(s),\bar{X}(s))dW(E(s))}\nonumber\\
+    &+\int_{0}^{t}Lg_{h}{(\bar{\tau}(s),\bar{X}(s))\Delta W(E_h(s))dW(E(s))},
+\end{align}
+其中$\bar{\tau}(s)=\tau_n\ind_{[\tau_n,\tau_{n+1})}(s), \bar{X}(t)=\sum_{n=0}^{N}X_{\tau_n}\ind_{[\tau_n,\tau_{n+1})}(t)$, 且
+\begin{align*}
+ \Delta W(E_h(s))=\sum_{i=1}^{N}\ind_{\left\{\tau_i\leqslant s < \tau_{i+1}\right\} }\big(W(E_h(s))-W(E_h(\tau_i))\big).
+\end{align*}
+
+在本文重要结论的证明中, 以下形式的Taylor展开至关重要.
+
+假设$\psi  :\RR^{d+1}\to \RR^{d}$ 是一个三阶连续可微函数, 对任意$\bar{z},z^{*}\in \RR^{d+1}$有
+\begin{align*}
+    \begin{split}
+        \psi (\bar{z})-\psi (z^{*})=\psi ^{'}(z)|_{z=z^{*}}(\bar{z}-z^{*})+R_{\psi }(\bar{z},z^{*}),
+    \end{split}
+\end{align*}
+这里
+\begin{align*}
+    \begin{split}
+        R_{\psi }(\bar{z},z^{*})=\int_{0}^{1}(1-\theta)\psi ^{''}(z)|_{z=z^{*}+\theta (\bar{z}-z^{*})}(\bar{z}-z^{*},\bar{z}-z^{*})d\theta.
+    \end{split}
+\end{align*}
+其中$\psi ^{'}$ 和 $\psi ^{''} $被以下方式定义, 即对任意$z,\hat{z},\tilde{z}\in \RR^{d+1}$, 有
+\begin{align*}
+    \psi ^{'}(z)(\hat{z})=\sum_{i=1}^{d+1}\dfrac{\partial \psi }{\partial z^{i}}\hat{z}_{i},
+    \quad \psi^{''}(z)(\hat{z},\tilde{z})=\sum_{i,k=1}^{d+1}\dfrac{\partial^{2} \psi  }{\partial z^{i}\partial z^{k}}\hat{z}_{i}\tilde{z}_{k},
+\end{align*}
+这里$\psi =(\psi _{1},\psi _{2},...,\psi _{d})^{T}$. 对任意$j=1,2,...,d$, 有$\psi_j:\RR^{d+1}\to \RR^{d}$; 且对任意$i=1,2,...,d+1$, 有$\dfrac{\partial \psi }{\partial z^{i}}=(\dfrac{\partial \psi _{1}}{\partial z^{i}},\dfrac{\partial \psi _{2}}{\partial z^{i}},...,\dfrac{\partial \psi _{d}}{\partial z^{i}})^{T}$.
+
+在本文中, 我们通过一维时间变量和$d$维空间变量进行上述的Taylor展开. 更准确地说, 设$\bar{z}=(\eta,\bar{x})$和$z^{*}=(\eta,x^{*})$, 其中$\eta \in \RR_{+}$, 且$\bar{x},x^{*}\in\RR^{d}$. 显然$\bar{z}-z^{*}=(0,\bar{x}-x^{*})$, 因此, 对$\psi :\RR_{+}\times \RR^{d}\to \RR^{d}$有
+\begin{align*}
+    \begin{split}
+        \psi (\eta ,\bar{x})-\psi (\eta ,x^{*})=\psi ^{'}(\eta ,x)\big|_{x=x^{*}}(\bar{x}-x^{*})+R_{\psi }(\eta,\bar{x},x^{*}),
+    \end{split}
+\end{align*}
+其中
+\begin{align*}
+    \begin{split}
+        R_{\psi }(\eta,\bar{x},x^{*})=\int_{0}^{1}(1-\theta )\psi ^{''}(\eta,x)|_{x=x^{*}+\theta (\bar{x}-x^{*})}(\bar{x}-x^{*},\bar{x}-x^{*})d\theta ,
+    \end{split}
+\end{align*}
+对任意 $\eta \in \RR_{+}$ 和$\bar{x},x^{*}\in \RR^{d}$成立. 在该情况下, 对任意 $x,\bar{j},\bar{h} \in \RR^{d}$, $\psi ^{'}$ 和 $\psi ^{''}$分别被定义为
+\begin{align*}
+    \psi ^{'}(\eta,x)(\bar{j})=\sum_{i=1}^{d}\dfrac{\partial \psi  }{\partial x^{i}}\bar{j}_{i},
+    \quad\psi^{''}(\eta,x)(\bar{j},\bar{h})=\sum_{i,k=1}^{d}\dfrac{\partial^{2} \psi  }{\partial x^{i}\partial x^{k}}\bar{j}_{i}\bar{h}_{k},
+\end{align*}
+其中$\psi =(\psi _{1},\psi _{2},...,\psi _{d})^{T}$, $\dfrac{\partial \psi }{\partial x^{i}}=(\dfrac{\partial \psi _{1}}{\partial x^{i}},\dfrac{\partial \psi _{2}}{\partial x^{i}},...,\dfrac{\partial \psi _{d}}{\partial x^{i}})^{T}$, $\bar{j}=(\bar{j}_{1},\bar{j}_{2},...,\bar{j}_{d})^{T}$ 和 $\bar{h}=(\bar{h}_{1},\bar{h}_{2},...,\bar{h}_{d})^{T}$.
+
+设$\eta=\bar{\tau}(t)$, $\bar{x}=X(t)$和$x^{*}=\bar{X}(t)$, 根据上述推导可得对任意固定的$t\in [0,T]$, 有
+\begin{align}
+    \label{le210}
+    \psi (\bar{\tau}(t),X(t))-\psi (\bar{\tau}(t),\bar{X}(t))
+    =&\psi ^{'}(\bar{\tau}(t),x)\big|_{x=\bar{X}(t)}\int_{0}^{t}g_{h}(\bar{\tau}(s),\bar{X}(s))dW(E(s))\nonumber\\
+    &+ \tilde{R}_{\psi }(t,X(t),\bar{X}(t)),
+\end{align}
+其中
+\begin{align}
+    \label{the2_11}
+    \tilde{R}_{\psi }(t,X(t),\bar{X}(t))
+    =&\psi ^{'}(\bar{\tau}(t),x)\big|_{x=\bar{X}(t)}\bigg(\int_{0}^{t}f_{h}(\bar{\tau}(s),\bar{X}(s))dE(s)\nonumber\\
+    &+\int_{0}^{t}Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))dW(E(s))\bigg)\nonumber\\
+    &+R_{\psi }(\bar{\tau}(t),X(t),\bar{X}(t)).
+\end{align}
+因此, 用$g_{h}$代替$\psi $, 可得
+\begin{align}
+    \label{the2_12}
+    &\tilde{R}_{g_{h}}(t,X(t),\bar{X}(t)) \nonumber\\
+    =&g_{h}(\bar{\tau}(t),X(t))-g_{h}(\bar{\tau}(t),\bar{X}(t))-Lg_{h}(\bar{\tau }(t),\bar{X}(t))\Delta W(E_{h}(t)).
+\end{align}
+
+\section{主要引理}
+在本章末尾, 我们列举出一些已知的引理. 有关引理\eqref{lemma2-6}和引理\eqref{lemma23}的证明, 请参阅文献\cite{Hu2018274}. 引理\eqref{lemma_E}的证明可以在文献\cite{Jum2016201}中找到. 同样地引理\eqref{lemY}引用自文献\cite{li2021}.
+\begin{lemma}
+    \label{lemma2-6}
+    若假设 \ref{ass1}成立, 对任意$h\in (0,1]$, 有
+    \begin{align*}
+        &|f_{h}(t,x)-f_{h}(t,y)|\vee |g_{h}(t,x)-g_{h}(t,y)|\vee |Lg_{h}(t,x)-Lg_{h}(t,y)|\\
+        \leq& C(1+|x|^{\a}+|y|^{\a})|x-y|,
+    \end{align*}
+    对任意$t\in(0,T]$和 $x,y \in \RR^{d}$成立.
+\end{lemma}
+
+\begin{lemma}
+    \label{lemma23}
+     若假设\ref{ass3}成立, 对任意$h\in (0,1]$, 有
+    \begin{align*}
+        x^{\mathrm{T}}f_{h}(t,x) +(5q-1)|g_{h}(t,x)|^2 \leq \hat{K}_1(1+|x|^2),\quad \forall x\in \RR^d,
+    \end{align*}
+    其中$\hat{K}_1=2K_1\left(1\vee \frac{1}{\m^{-1}(\k(1))}\right)$.
+\end{lemma}
+
+\begin{lemma}
+    \label{lemma_E}
+    对任意$t_i\leq t\leq t_{i+1}$, 存在一个常数$c$, 使得
+    \begin{align*}
+        |E(t)-E(t_i)|\leq |E(t_{i+1})-E(t_i)|\leq ch.
+    \end{align*}
+\end{lemma}
+\par
+\begin{lemma}
+    \label{lemY}
+   若假设\ref{ass1}和\ref{ass3}成立, 对任意$p\in [2,q)$, 有
+    \begin{align*}
+        \EE \left( \sup _{0\leq t\leq T}|Y(t)|^p \right)<\infty.
+    \end{align*}
+\end{lemma}
+简而言之, 引理\ref{lemma2-6}和引理\ref{lemma23}表明, 在某种程度上截断函数 $f_{h}$和$g_{h}$继承了假设\ref{lemma2-6}和假设\ref{lemma_E}的性质. 引理\ref{lemma_E}对于分析$E_h(t)$的收敛阶起到重要作用. 引理\ref{lemY}陈述了解析解的矩有界性.
+
+接下来, 我们将呈现并证明用于第三章主要结论中的一些重要引理.
+\begin{lemma}
+    \label{lemma2}
+    对任意$h\in (0,1]$和$\hat{p}>2$, 有
+    \begin{align}
+        \label{equ06}
+        \EE_W|X(t)-\bar{X}(t)|^{\hat{p}}\leq c_{\hat{p}}h^{\hat{p}/2}\left(\k(h)\right)^{\hat{p}},\quad \forall t\geq 0,
+    \end{align}
+    其中
+     $c_{\hat{p}}=c\left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}3^{\hat{p}-1}$. 因此
+    \begin{align}
+        \label{equ07}
+        \lim_{h\rightarrow 0}\EE_W|X(t)-\bar{X}(t)|^{\hat{p}}=0,\quad \forall t\geq 0.
+    \end{align}
+\end{lemma}
+\begin{proof}
+对任意$h\in (0,1]$, $\hat{p}>2$和$t\geq 0$, 存在唯一的整数$n\geq 0$使得$\tau_n\leq t < \tau_{n+1}$. 根据基本不等式的性质, 从\eqref{equ04}可得
+\begin{align}
+    \label{lem250}
+    &|X(t)-\bar{X}(t)|^{\hat{p}}\nonumber\\
+    =&|X(t)-X(\tau_n)|^{\hat{p}}\nonumber\\
+    =&\bigg|\int_{\tau_n}^{t}{f_{h}(\bar{\tau}(s),\bar{X}(s))dE(s)} +\int_{\tau_n}^{t}{g_{h}(\bar{\tau}(s),\bar{X}(s))dW(E(s))} \nonumber\\
+    &+\int_{\tau_n}^{t}{Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))dW(E(s))}\bigg|^{\hat{p}}\nonumber\\
+    \leq&3^{\hat{p}-1}\bigg(\left|\int_{\tau_n}^{t}{f_{h}(\bar{\tau}(s),\bar{X}(s))dE(s)} \right|^{\hat{p}}+\left|\int_{\tau_n}^{t}{g_{h}(\bar{\tau}(s),\bar{X}(s))dW(E(s))} \right|^{\hat{p}}\nonumber\\
+    &+\left|\int_{\tau_n}^{t}{Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))dW(E(s))} \right|^{\hat{p}}\bigg).
+\end{align}
+接下来, 我们依次估计\eqref{lem250}式中最后一个不等式右侧括号内的三项. 利用H{\"o}lder不等式第一项可以估计为
+\begin{align}
+    \label{lem38}
+    \EE_W\left|\int_{\tau_n}^{t}{f_{h}(\bar{\tau}(s),\bar{X}(s))dE(s)} \right|^{\hat{p}}\leq h^{\hat{p}-1}\EE_W\int_{\tau_n}^{t}{\left|f_{h}(\bar{\tau}(s),\bar{X}(s))\right|^{\hat{p}} dE(s)}.
+\end{align}
+对括号里的第二项, 我们设 $x(t)=\int_{\tau_n}^{t}{g_{h}(\bar{\tau}(s),\bar{X}(s))dW(E(s))}$可得
+ \begin{align*}
+    &\EE_W\left| x(t)\right|^{\hat{p}}\\
+    =&\dfrac{\hat{p}}{2}\EE_W\int_{\tau_n}^{t}\left(\left| x(s)\right|^{\hat{p}-2}\big|{g_{h}(\bar{\tau}(s),\bar{X}(s))\big|^{2}+({\hat{p}-2})\left| x(s)\right|^{\hat{p}-4}}\big|x^{T}(s)g_{h}(\bar{\tau}(s),\bar{X}(s))\big|^{2}\right)dE(s)\nonumber\\ 
+    \leq& \frac{\hat{p}(\hat{p}-1)}{2}\EE_W\int_{\tau_n}^{t}\left| x(s)\right|^{\hat{p}-2}\left|g_{h}(\bar{\tau}(s),\bar{X}(s))\right|^2dE(s)\\
+    \leq& \frac{\hat{p}(\hat{p}-1)}{2}\left(\EE_W\int_{\tau_n}^{t}\left| x(s)\right|^{\hat{p}}dE(s)\right)^{\frac{\hat{p}-2}{\hat{p}}}\left(\EE_W\int_{\tau_n}^{t}\left|g_{h}(\bar{\r}(s),\bar{X}(s))\right|^{\hat{p}}dE(s)\right)^{\frac{2}{\hat{p}}}\\
+    =&  \frac{\hat{p}(\hat{p}-1)}{2}\left(\int_{\tau_n}^{t}\EE_W\left| x(s)\right|^{\hat{p}}dE(s)\right)^{\frac{\hat{p}-2}{\hat{p}}}\left(\EE_W\int_{\tau_n}^{t}\left|g_{h}(\bar{\r}(s),\bar{X}(s))\right|^{\hat{p}}dE(s)\right)^{\frac{2}{\hat{p}}}.
+\end{align*}
+由于$\EE_W\left| x(t)\right|^{\hat{p}}$在$t$上是非递减的, 故有
+  \begin{align*}
+    \begin{split}
+        \EE_W\left| x(t)\right|^{\hat{p}}
+        &\leq \frac{\hat{p}(\hat{p}-1)}{2}\left[ch\EE_W\left| x(t)\right|^{\hat{p}}\right]^{\frac{\hat{p}-2}{\hat{p}}}\left(\EE_W\int_{\tau_n}^{t}\left|g_{h}(\bar{\tau}(s),\bar{X}(s))\right|^{\hat{p}}dE(s)\right)^{\frac{2}{\hat{p}}}\\
+        &= \frac{\hat{p}(\hat{p}-1)}{2}\left[ch^{\frac{\hat{p}-2}{p}}\EE_W\left| x(t)\right|^{\hat{p}-2}\right]\left(\EE_W\int_{\tau_n}^{t}\left|g_{h}(\bar{\tau}(s),\bar{X}(s))\right|^{\hat{p}}dE(s)\right)^{\frac{2}{\hat{p}}}.
+    \end{split}
+\end{align*}
+经过进一步的移项和简化得到
+ \begin{align*}
+    \begin{split}
+        \EE_W\left| x(t)\right|^{\hat{p}}
+        \leq \left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}ch^{\frac{\hat{p}-2}{2}}\EE_W\int_{\tau_n}^{t}\left|g_{h}(\bar{\tau}(s),\bar{X}(s))\right|^{\hat{p}}dE(s).\\
+    \end{split}
+\end{align*}
+因此, 我们可以得到
+\begin{align}
+    \label{lem39}
+    &\EE_W\left|\int_{\tau_n}^{t}{g_{h}(\bar{\tau}(s),\bar{X}(s)) dW(E(s))}\right|^{\hat{p}}\nonumber\\
+    \leq& \left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}ch^{\frac{\hat{p}-2}{2}}\EE_W\int_{\tau_n}^{t}\left|g_{h}(\bar{\tau}(s),\bar{X}(s))\right|^{\hat{p}}dE(s).
+\end{align}
+对于括号中的第三项, 我们使用类似第二项的处理方法, 可以得到
+ \begin{align}
+    \label{lem310}
+    &\EE_W\left|\int_{\tau_n}^{t}{Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E(s))dW(E_{h}(s))}\right|^{\hat{p}}\nonumber\\
+    &\leq \left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}ch^{\frac{\hat{p}-2}{2}}\EE_W\int_{\tau_n}^{t}\left|Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\right|^{\hat{p}}dE(s).
+\end{align}
+ 将估计 \eqref{lem38}、\eqref{lem39} 和 \eqref{lem310}代入\eqref{lem250}中, 通过利用\eqref{eq:Eh}、引理\ref{lemma_E}和引理\ref{equ01}可得
+  \begin{align*}
+     \EE_W|X(t)-\bar{X}(t)|^{\hat{p}} \leq&
+     3^{\hat{p}-1}\bigg(h^{\hat{p}-1}\EE_W\int_{\tau_n}^{t}{\left|f_{h}(\bar{\tau}(s),\bar{X}(s))\right|^{\hat{p}}dE(s)}\\
+     &+\left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}ch^{\frac{\hat{p}-2}{2}}\EE_W\int_{\tau_n}^{t}\left|g_{h}(\bar{\tau}(s),\bar{X}(s))\right|^{\hat{p}}dE(s)\\
+     &+\left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}ch^{\frac{\hat{p}-2}{2}}\EE_W\int_{\tau_n}^{t}\bigg|Lg_{h}(\bar{\tau}(s),\bar{X}(s))\\
+     &\times \Delta W(E_{h}(s))\bigg|^{\hat{p}}dE(s)\bigg)\\
+     \leq & 3^{\hat{p}-1}\bigg(h^{\hat{p}-1}ch(\k(h))^{\hat{p}}+\left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}ch^{\frac{\hat{p}-2}{2}}h(\k(h))^{\hat{p}}\\
+     &+\left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}ch^{\frac{\hat{p}-2}{2}}h^{\frac{\hat{p}}{2}}h(\k(h))^{2\hat{p}}\bigg)\\
+     \leq & c_{\hat{p}}\left(h^{\hat{p}-1}h(\k(h))^{\hat{p}}+h^{\hat{p}/2-1}h(\k(h))^{\hat{p}}+h^{\hat{p}/2}h^{\hat{p}/2}(\k(h))^{2\hat{p}}\right)\\
+     \leq & c_{\hat{p}}\left(h^{\hat{p}}(\k(h))^{\hat{p}}+h^{\hat{p}/2}(\k(h))^{\hat{p}}+h^{\hat{p}}(\k(h))^{2\hat{p}}\right)\\
+     \leq &c_{\hat{p}}h^{\hat{p}/2}(\k(h))^{\hat{p}},
+ \end{align*}
+其中$c_{\hat{p}}=c\left(\frac{\hat{p}(\hat{p}-1)}{2}\right)^{\frac{\hat{p}}{2}}3^{\hat{p}-1}$. 故完成了\eqref{equ06}的证明. 注意从\eqref{equ0}可得$h^{\hat{p}/2}(\k(h))^{\hat{p}}\leq h^{\hat{p}/4}$, 因此\eqref{equ07}易从\eqref{equ06}中推导得出.
+\end{proof}
+\par
+\begin{lemma}
+    \label{lemma3}
+    若假设\ref{ass1} 和 \ref{ass3}成立, 则有
+    \begin{align}
+        \label{equ08}
+        \sup_{0< h \leq 1}\EE [\sup_{0\leq t\leq T}|X(t)|^p]\leq C, \quad \forall T>0,
+    \end{align}
+    其中 $C=\bigg(2|X(0)|^p+4c_{p}^{\frac{1}{2}}\hat{k}E(t)+2(5p^{2}-p)c\hat{k}E(t)\bigg)e^{3(2p\hat{K}_1\vee 2(p-2)\vee2(5p^{2}-p))E(T)}$是一个取决于$X(0)$、 $p$、$T$、$c_{p}$、$\hat{k}$和$\hat{K}_1$的常数, 但是与$h$无关.
+\end{lemma}
+\begin{proof}
+对正整数$\ell$定义停时$\zeta_{\ell}:=\inf\{ t\geq 0; |X(t)|>\ell \}$, 可以得到
+\begin{align*}
+    \int_{0}^{t}{\EE_W\left(\sup_{0\leq s \leq t\wedge \zeta_{\ell}}|X(s)|^p\right)dE(r)}\leq \ell^pE(t),
+\end{align*}
+对任意 $h\in(0,1]$和 $T\geq 0$成立. 通过It\^o公式, 我们从\eqref{equ04}推导可得对$0\leq u\leq t\wedge \zeta_{\ell}$, 有
+\begin{align}
+    \label{th3121}
+    |X(u)|^p=|X(0)|^p+A_u+M_u,
+\end{align}
+其中
+\begin{align*}
+    A_u:=&\int_{0}^{u}\bigg( p|X(s)|^{p-2}X^{\mathrm{T}}(s)f_{h}(\bar{\tau}(s),\bar{X}(s))+\frac{1}{2}p(p-1)|X(s)|^{p-2}|g_{h}(\bar{\tau}(s),\bar{X}(s))\\
+    &+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))|^2\bigg)dE(s),
+\end{align*}
+\begin{align*}
+    M_u:=
+    \int_{0}^{u}{p|X(s)|^{p-1}|g_{h}(\bar{\tau}(s),\bar{X}(s))+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))|dW(E(s))}.
+\end{align*}
+由于随机积分$(M_u)_{u\geq 0}$是一个具有二次变差的局部鞅, 故有
+ \begin{align*}
+    [M,M]_u=\int_{0}^{u}{p^2|X(s)|^{2p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2 dE(s)},
+\end{align*}
+对$0\leq s\leq t\wedge \zeta_{\ell}$有
+ \begin{align*}
+    &p^2|X(s)|^{2p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2\\
+    \leq& p^2|X(s)|^p|X(s)|^{p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2\\
+    \leq& p^2\left(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\right)\big|X(s)|^{p-2}|g_{h}(\bar{\tau}(s),\bar{X}(s))+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2.
+\end{align*}
+对任意$a,b\geq 0$和$\l > 0$, 不等式$(ab)^{1/2}\leq a/\l +\l b$成立, 则对$0\leq u \leq t\wedge \zeta_{\ell}$, 有
+    \begin{align*}
+    &([M,M]_u)^{1/2}\\
+    \leq& p\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\int_{0}^{u}|X(s)|^{p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))\\
+    &+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2 dE(s)\bigg)^{1/2}\\
+    \leq& p\bigg(\frac{\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p}{2p}+2p\int_{0}^{u}|X(s)|^{p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))\\
+    &+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2 dE(s)\bigg)\\
+    = & \frac{1}{2}\sup_{0\leq u\leq t\wedge\zeta_{\ell}}|X(u)|^p +2p^2\int_{0}^{u}|X(s)|^{p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))\\
+    &+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2 dE(s).
+\end{align*}
+ 再分别对$A_u$和$M_u$取期望, 有
+  \begin{align}
+      \label{th313}
+     \EE_W(A_u)=&\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\int_{0}^{u}\bigg(p|X(s)|^{p-2}X^{\mathrm{T}}(s)f_{h}(\bar{\tau}(s),\bar{X}(s))\nonumber\\ &+\frac{1}{2}p(p-1)|X(s)|^{p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))\nonumber\\
+     &+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2\bigg) dE(s)\bigg),
+ \end{align}
+ \begin{align}
+     \label{th314}
+     \EE_W(M_u)=&\EE_W\bigg(\frac{1}{2}\sup_{0\leq u\leq t\wedge\zeta_{\ell}}|X(u)|^p+\sup_{0\leq u\leq t\wedge\zeta_{\ell}}\int_{0}^{u}2p^2|X(s)|^{p-2}\big|g_{h}(\bar{\tau}(s),\bar{X}(s))  \nonumber\\ 
+     &+Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))\big|^2 dE(s)\bigg).
+ \end{align}
+然后对$\eqref{th3121}$取期望后代入$\eqref{th313}$和$\eqref{th314}$, 再利用基本不等式$(a+b)^{2}\leq2(a^{2}+b^{2})$, 可得
+\begin{align}
+    \label{th315}
+    &\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\bigg)  \nonumber\\ 
+    =&|X(0)|^p+\EE_W(A_u)+\EE_W(M_u) \nonumber\\ \nonumber
+    \leq& |X(0)|^p+\frac{1}{2}\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\bigg) \\ \nonumber
+    \quad&+\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\int_{0}^{u}p |X(s)|^{p-2}\bigg(X^{\mathrm{T}}(s)f_{h}(\bar{\tau}(s),\bar{X}(s)) \\ \nonumber
+    \quad&+(5p-1)|g_{h}(\bar{\tau}(s),\bar{X}(s))|^2\bigg)dE(s)\bigg)
+    +\big(p(p-1)+4p^{2}\big) \\ \nonumber
+    \quad& \times \EE_W\bigg(\sup_{0\leq u\leq t\wedge\zeta_{\ell}}\int_{0}^{u}|X(s)|^{p-2}|Lg_{h}(\bar{\tau}(s),\bar{X}(s)) \Delta W(E_{h}(s))|^2dE(s)\bigg) \\ \nonumber
+    \leq& |X(0)|^p+\frac{1}{2}\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\bigg) \\ \nonumber
+    \quad&+\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\int_{0}^{u}p|X(s)|^{p-2} \bigg(\bar{X}^{\mathrm{T}}(s)f_{h}(\bar{\tau}(s),\bar{X}(s)) \\ \nonumber
+    \quad&+(5p-1)|g_{h}(\bar{\tau}(s),\bar{X}(s))|^2\bigg)dE(s)\bigg) \\ \nonumber
+    \quad& +\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\int_{0}^{u}p|X(s)|^{p-2}(X(s)-\bar{X}(s))^{\mathrm{T}}f_{h}(\bar{\tau}(s),\bar{X}(s))dE(s)\bigg) \\ \nonumber
+    \quad& 
+    +(5p^{2}-p) \EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\int_{0}^{u}|X(s)|^{p-2}|Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))|^2dE(s)\bigg).\nonumber \\ 
+\end{align}
+因此, 对任意$0\leq u\leq t\wedge \zeta_{\ell}$, 通过使用引理\ref{lemma23}和Young不等式：
+\begin{align*}
+    a^{p-2}b\leq \frac{p-2}{p}a^p + \frac{2}{p}b^{p/2},\quad \forall a,b \geq 0.
+\end{align*}
+我们能从$\eqref{th315}$得到
+ \begin{align*}
+    \label{e316}
+    &\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\bigg)\\
+    \leq& |X(0)|^p+\frac{1}{2}\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\bigg)\\
+    \quad&+p\hat{K}_1\EE_W\left(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\int_{0}^{u}{|X(s)|^{p-2}(1+|\bar{X}(s)|^2)dE(s)}\right)\\
+    \quad& +\EE_W\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\bigg((p-2)\int_{0}^{u}{|X(s)|^p dE(s)}\\
+    \quad&+2\int_{0}^{u}{|X(s)-\bar{X}(s)|^{p/2}|f_{h}(\bar{\tau}(s),\bar{X}(s))|^{p/2}dE(s)}\bigg)\\
+    \quad& +(5p^{2}-p)\EE_W\bigg(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}\int_{0}^{u}{|X(s)|^{p-2}|Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))|^2dE(s)}\bigg).\\
+\end{align*}
+接下来, 对任意$0\leq u\leq t\wedge \zeta_{\ell}$应用基本不等式, 有
+ \begin{align}
+    \EE_W\left(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(t)|^p\right)\leq & 2|X(0)|^p +2p\hat{K}_1\EE_W\int_{0}^{t}|X(t\wedge \zeta_{\ell})|^{p-2}(1+|\bar{X}(s)|^2)dE(s) \nonumber\\
+    \quad& +2(p-2)\int_{0}^{t}\EE_W |X(t\wedge \zeta_{\ell})|^p dE(s)+I_{1}+I_{2},
+\end{align}
+其中
+\begin{align*}
+    I_{1}=4\EE_W\int_{0}^{t}{|X(s)-\bar{X}(s)|^{p/2}|f_{h}(\bar{\tau}(s),\bar{X}(s))|^{p/2}dE(s)},
+\end{align*}
+\begin{align*}
+    I_{2}=2(5p^{2}-p)\EE_W\left(\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p-2}|Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))|^2dE(s)}\right).
+\end{align*}
+ 我们首先处理$I_{1}$项, 根据引理\ref{lemma2}、不等式\eqref{equ0}和\eqref{equ01}可得
+   \begin{align*}
+      I_{1}=&4\EE_W\int_{0}^{t}{|X(s)-\bar{X}(s)|^{p/2}|f_{h}(\bar{\tau}(s),\bar{X}(s))|^{p/2}dE(s)}\\
+      \leq& 4\left(\k(h)\right)^{p/2}\int_{0}^{t}{\EE_W|X(s)-\bar{X}(s)|^{p/2}dE(s)}\\
+      \leq& 4\left(\k(h)\right)^{p/2}\int_{0}^{t}{\big(\EE_W|X(s)-\bar{X}(s)|^p\big)^{1/2}dE(s)}\\
+      \leq& 4c_{p}^{\frac{1}{2}}\left(\k(h)\right)^ph^{p/4}E(t)\\
+      \leq& 4c_{p}^{\frac{1}{2}}\hat{k}E(t).
+  \end{align*}
+其次处理$I_{2}$项, 通过不等式\eqref{equ0}、\eqref{equ01}和引理\ref{lemma_E}可得
+\begin{align*}
+    I_{2}&=2(5p^{2}-p)\EE_W\left(\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p-2}|Lg_{h}(\bar{\tau}(s),\bar{X}(s))\Delta W(E_{h}(s))|^2dE(s)}\right)\\
+    &\leq2(5p^{2}-p)\EE_W\left(\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p-2}ch|\k(h)|^4 dE(s)}\right)\\
+    &\leq2(5p^{2}-p)\left(\EE_W\int_{0}^{t}{\frac{p-2}{p}|X(t\wedge \zeta_{\ell})|^{p}dE(s)}+\EE_W\int_{0}^{u}{\frac{2}{p}|\k(h)|^{2p}ch^{\frac{p}{2}} dE(s)}\right)\\
+    &\leq2(5p^{2}-p)\left(\EE_W\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p}dE(s)}\right)+2(5p^{2}-p)|\k(h)|^{2p}ch^{\frac{p}{2}}E(t)\\
+    &\leq2(5p^{2}-p)\left(\EE_W\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p}dE(s)}\right)+2(5p^{2}-p)c\hat{k}E(t).
+\end{align*}
+再将$I_{1}$和$I_{2}$代入\eqref{e316}可得
+\begin{align*}
+    \EE_W\left(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\right)&\leq
+    2|X(0)|^p+2p\hat{K}_1\EE_W\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p-2}(1+|\bar{X}(s)|^2)dE(s)}\\
+    &\quad +2(p-2)\int_{0}^{t}{\EE_W |X(t\wedge \zeta_{\ell})|^p dE(s)}
+    +4c_{p}^{\frac{1}{2}}\hat{k}E(t)\\
+    &\quad+2(5p^{2}-p)\left(\EE_W\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p}dE(s)}\right)+2(5p^{2}-1)c\hat{k}E(t)\\
+    &\leq
+    2|X(0)|^p+4c_{p}^{\frac{1}{2}}\hat{k}E(t)+2(5p^{2}-p)c\hat{k}E(t)\\
+    &\quad+2p\hat{K}_1\EE_W\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p-2}(1+|\bar{X}(s)|^2)dE(s)}\\
+    &\quad+2(p-2)\int_{0}^{t}{\EE_W |X(t\wedge \zeta_{\ell})|^p dE(s)}\\
+     &\quad+2(5p^{2}-p)\left(\EE_W\int_{0}^{t}{|X(t\wedge \zeta_{\ell})|^{p}dE(s)}\right)\\
+    &\leq C_1+3C_2\int_{0}^{t}{\EE_W\left(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\right) dE(s)},
+\end{align*}
+其中
+ $C_1=2|X(0)|^p+4c_{p}^{\frac{1}{2}}\hat{k}E(t)+2(5p^{2}-p)c\hat{k}E(t)$和 $C_2=2p\hat{K}_1\vee 2(p-2)\vee2(5p^{2}-p)$, 再通过应用Gronwall型不等式, 对任意$t\in[0,T]$ 有
+ \begin{align*}
+     \EE_W\left(\sup_{0\leq u\leq t\wedge \zeta_{\ell}}|X(u)|^p\right)\leq C_1e^{(3C_2)E(t)}.
+ \end{align*}
+当$\ell\rightarrow \infty$时$\zeta_{\ell}\rightarrow \infty$.令$t=T$和 $\ell\rightarrow \infty$可得
+ \begin{align*}
+    \EE_W\left(\sup_{0\leq t\leq T}|X(t)|^p\right)\leq C_1e^{(3C_2)E(T)}.
+\end{align*}
+最后, 我们对两边同时取$\EE_D$, 并通过使用性质 $\EE_D\left(E(T)e^{E(T)}\right)<\EE_D\left(e^{2 E(T)}\right)<\EE_D\left(e^{3 E(T)}\right)< \infty$可得
+ \begin{align*}
+    \EE\left(\sup_{0\leq t\leq T}|X(t)|^p\right) \leq C,
+\end{align*}
+其中 $C=\bigg(2|X(0)|^p+4c_{p}^{\frac{1}{2}}\hat{k}E(t)+2(5p^{2}-p)c\hat{k}E(t)\bigg)e^{3(2p\hat{K}_1\vee 2(p-2)\vee2(5p^{2}-p))E(T)}$, 结论对任意$h\in(0,1]$成立且$C$与$h$无关, 故推出式子\eqref{equ08}成立.
+\end{proof}
+\begin{lemma}
+    \label{lemma4}
+    若假设\ref{ass1}、\ref{ass3}、\ref{ass5}和\ref{ass4}成立, 且假设$q\geq 2(\a+1)p$, 其中常数$p>2$, 那么对任意$\bar{p}\in [2,p)$ 和 $h \in (0,1]$, 有
+    \begin{align*}
+        \sup_{0<h\leq 1}\sup_{0\leq t\leq T}\left [\EE| f^{'}(t,x)|_{x=X(t)}|^{\bar{p}}\vee\EE| g^{'}(t,x)|_{x=X(t)}|^{\bar{p}}  \right ]< \infty ,
+    \end{align*}
+    其中$f^{'}$ 和 $g^{'}$分别表示$f$和$g$关于空间变量$x$的一阶偏导数.
+    \par
+     该引理易从假设\ref{ass5}和引理\ref{lemma4}中推导得出.
+    \end{lemma} 
+\begin{lemma}
+    \label{lemma5}
+    若假设\ref{ass1}、\ref{ass2}、\ref{ass3}、\ref{ass5}和\ref{ass4}成立, 且假设$q\geq 2(\a+1)p$, 其中常数$p>2$, 那么对任意$\bar{p}\in [2,p)$、$h \in (0,1]$和$t\in [0,T]$, 有
+    \begin{align*}
+        \EE|\tilde{R}_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}\vee\EE|\tilde{R}_{g}(t,X(t),\bar{X}(t))|^{\bar{p}}\vee\EE|\tilde{R}_{g_h}(t,X(t),\bar{X}(t))|^{\bar{p}} < Ch^{\bar{p}}(\k(h))^{2\bar{p}},
+    \end{align*}
+其中$C$是与$h$和$t$无关的正常数.
+\end{lemma} 
+    \par
+ \begin{proof}
+ 首先, 当$0\leq t\leq T$时, 我们通过假设\ref{ass5}、引理\ref{lemma2}和引理\ref{lemma3}对$|R_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}$进行估计, 同时应用H{\"o}lder不等式和Jensen不等式证得存在一个常数C满足该估计.
+    \begin{align}
+        \label{th317}
+        &\EE_{W}|R_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}\nonumber\\
+        \leq&\int^{1}_{0}(1-\theta)^{\bar{p}}\EE_{W}\big|f^{''}(\bar{\tau}(t),x)|_{x=\bar{X}(t)+\theta(X(t)-\bar{X}(t))}\nonumber\big(X(t)-\bar{X}(t),X(t)-\bar{X}(t)\big)\big|^{\bar{p}}d\theta \nonumber\\
+        \leq&\int^{1}_{0}\big[\EE_{W}\big|f^{''}(\bar{\tau}(t),x)|_{x=\bar{X}(t)+\theta(X(t)-\bar{X}(t))}\big|^{2\bar{p}}\EE_{W}|X(t)-\bar{X}(t)|^{4\bar{p}}\big]^{\frac{1}{2}}d\theta \nonumber\\
+        \leq&C\big(1+\EE_{W}|X(t)|^{2(1+\a)\bar{p}}+\EE_{W}|\bar{X}(t)|^{2(1+\a)\bar{p}}\big)^{\frac{1}{2}}\big(\EE_{W}|X(t)-\bar{X}(t)|^{4\bar{p}}\big)^{\frac{1}{2}} \nonumber\\
+        \leq&Ch^{\bar{p}}k(h)^{2\bar{p}}.
+    \end{align}
+通过应用$\eqref{the2_11}$和H{\"o}lder不等式可得
+\begin{align}
+    \label{th318}
+    &\EE_{W}|\tilde{R}_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}\nonumber\\
+    \leq&
+    C\big[h^{\bar{p}}\EE_{W}\big|f^{'}(\bar{\tau}(t),x)|_{x=\bar{X}(t)}f_{h}(\bar{\tau}(t),\bar{X}(t))\big|^{\bar{p}}\nonumber\\
+    &+\dfrac{1}{2}\EE_{W}\big|f^{'}(\bar{\tau}(t),x)|_{x=\bar{X}(t)}Lg_{h}(\bar{\tau}(t),\bar{X}(t))(\Delta W(E_{h}(t))^{2}-h)\big|^{\bar{p}}\nonumber\\
+    &+\EE_{W}|R_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}\big]\nonumber\\
+    \leq&
+    C\big[h^{\bar{p}}\EE_{W}|f^{'}(\bar{\tau}(t),x)|_{x=\bar{X}(t)}f_{h}(\bar{\tau}(t),\bar{X}(t))|^{\bar{p}}\nonumber\\
+    &+\dfrac{1}{2}\big(\EE_{W}|f^{'}(\bar{\tau}(t),x)|_{x=\bar{X}(t)}Lg_{h}(\bar{\tau}(t),\bar{X}(t))|^{2\bar{p}}\nonumber\EE_{W}|\Delta W(E(t))^{2}-h|^{2\bar{p}}\big)^{\frac{1}{2}}\\
+    &+\EE_{W}|R_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}\big].
+\end{align}
+根据基本不等式$|\sum_{i=1}^{m}a_{i}|^{p}\leq m^{p-1}\sum_{i=1}^{m}|a_{i}|^{p}$和引理\ref{lemma_E}可推导出
+\begin{align}
+    \label{th319}
+    \EE_{W}|\Delta W(E(t))^{2}-h|^{2\bar{p}}
+    \leq&
+    2^{2\bar{p}-1}(\EE_{W}|\Delta W(E(t))|^{4\bar{p}}+h^{2\bar{p}})\nonumber\\
+    \leq&
+    2^{2\bar{p}-1}(c\Delta (E(t))^{2\bar{p}}+h^{2\bar{p}})\nonumber\\
+    \leq&
+    2^{2\bar{p}-1}(2ch^{2\bar{p}})\nonumber\\
+    \leq&
+    2^{2\bar{p}}ch^{2\bar{p}}.
+\end{align}
+使用\eqref{equ01}和引理\ref{lemma4}能得出, 对 $0\leq t\leq T$有
+\begin{align}
+    \label{th320}
+    \EE_{W}\big|f^{'}(\bar{\tau}(t),x)|_{x=\bar{X}(t)}f_{h}(\bar{\tau}(t),\bar{X}(t))\big|^{\bar{p}}\leq C(k(h))^{\bar{p}},
+\end{align}
+\begin{align}
+    \label{th3212}
+    \EE_{W}\big|f^{'}(\bar{\tau}(t),x)|_{x=\bar{X}(t)}Lg_{h}(\bar{\tau}(t),\bar{X}(t))\big|^{2\bar{p}}\leq C(k(h))^{4\bar{p}}.
+\end{align}
+接下来, 将$\eqref{th317}$、$\eqref{th319}$、$\eqref{th320}$和$\eqref{th3212}$ 代入$\eqref{th318}$, 同时利用$ \bar{X}(t)$和 $\Delta W(t)$之间的独立性有
+\begin{align*}
+    \EE_{W}|\tilde{R}_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}\leq Ch^{\bar{p}}(k(h))^{2\bar{p}}.
+\end{align*}
+最后, 我们对两边同取$\EE_D$可得
+\begin{align*}
+    \EE|\tilde{R}_{f}(t,X(t),\bar{X}(t))|^{\bar{p}}\leq Ch^{\bar{p}}(k(h))^{2\bar{p}}.
+\end{align*}
+类似地, 可以得到
+\begin{align*}
+    \begin{split}
+        \EE|\tilde{R}_{g}(t,X(t),\bar{X}(t))|^{\bar{p}}\vee\EE|\tilde{R}_{g_{h}}(t,X(t),\bar{X}(t))|^{\bar{p}} \leq Ch^{\bar{p}}(k(h))^{2\bar{p}}.
+    \end{split}
+\end{align*}
+证明完成.
+ \end{proof}
+\clearpage
+
+

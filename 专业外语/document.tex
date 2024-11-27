@@ -1,0 +1,388 @@
+% -*- coding: utf-8 -*-
+% !TEX program = xelatex
+
+%\documentclass[11pt,a4paper]{article}
+\documentclass[12pt,final]{article}
+
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage[english]{babel}
+\usepackage{color,xcolor}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{pifont}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow,multicol}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{anyfontsize}
+%\usepackage{microtype}
+\usepackage{geometry}
+
+\geometry{left=1.25in,right=1.25in,top=1in,bottom=1in}
+%\geometry{left=3cm,right=3cm,top=3cm,bottom=3cm}
+\setlength{\headheight}{18pt}
+\setlength{\headsep}{18pt}
+\setlength{\footskip}{25pt}
+
+%----- 设置超链接 -----
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	citecolor=blue,
+	filecolor=blue,
+	urlcolor=blue
+}
+
+% 允许多行公式跨页显示
+\allowdisplaybreaks
+
+%----- 定义页眉-----
+\makeatletter
+\newcommand\@header{}
+\newcommand\header[1]{\def\@header{#1}}
+\makeatother
+
+%----- 页眉页脚 -----
+\usepackage{fancyhdr}
+\makeatletter
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small\kaishu\@header}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\makeatother
+
+%----- 设置英文字体 -----
+%\usepackage[no-math]{fontspec}
+%\usepackage{newtxtext}  % New TX font for text
+%\setmainfont{TeX Gyre Termes}  % Times New Roman 的开源复刻版本
+%\setsansfont{TeX Gyre Heros}   % Helvetica 的开源复刻版本
+%\setmonofont{TeX Gyre Cursor}  % Courier New 的开源复刻版本
+%\setmainfont{Times New Roman}
+%\setsansfont{Arial}
+%\setmonofont{Courier New}
+
+%----- 设置数学字体 -----
+%\usepackage{newtxmath}
+%\usepackage{mathptmx}
+
+%----- 设置编号格式 -----
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
+%----- 重新设置图表公式 autoref -------
+\renewcommand{\figureautorefname}{图}
+\renewcommand{\tableautorefname}{表}
+\renewcommand{\equationautorefname}{公式}
+
+%----- 设置各种间距 -----
+%\renewcommand{\baselinestretch}{1.35}
+%\setlength{\parindent}{2em}
+%\ziju{0.1}  % 控制中文字间距
+%\setlength{\parskip}{3pt plus1pt minus1pt}
+
+%----- 算法环境 -----
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\floatname{algorithm}{算法}
+\algrenewcommand\algorithmicrequire{\textbf{输入:}}
+\algrenewcommand\algorithmicensure{\textbf{输出:}}
+
+%----定义列表项的样式 -----
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+%-----设置图片的路径 -----
+\graphicspath{{./figure/}{./figures/}}
+
+%----- 使用 tabularx库并定义新的左右中格式 -----
+\newcolumntype{L}{X}
+\newcolumntype{C}{>{\centering \arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft \arraybackslash}X}
+\newcolumntype{P}[1]{>{\centering \arraybackslash}p{#1}}
+
+%----- 数学定理设置 -----
+\theoremstyle{plain}
+\newtheorem{definition}{定义}[section]
+\newtheorem{proposition}{命题}[section]
+\newtheorem{lemma}{引理}[section]
+\newtheorem{theorem}{定理}[section]
+\newtheorem{example}{例}
+\newtheorem{corollary}{推论}[section]
+\newtheorem{remark}{注}[section]
+\renewcommand{\proofname}{证明}
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+	\pushQED{\qed}%
+	\normalfont \topsep6\p@\@plus6\p@\relax
+	\trivlist\item[\hskip\labelsep
+	\bfseries #1\@addpunct{\,:\,}]\ignorespaces
+}{%
+	\popQED\endtrivlist\@endpefalse
+}
+\makeatother
+
+%----- 参考文献格式 -----
+%\bibliographystyle{plain} % abbrv, unsrt, siam
+\bibliographystyle{thuthesis-numeric}
+%\bibliographystyle{thuthesis-author-year}
+
+%----- 参考文献引用格式 -----
+\usepackage[numbers,sort&compress]{natbib}
+%\usepackage[numbers,super,square,sort&compress]{natbib}
+\def\bibfont{\small}  % 修改参考文献字体
+\setlength{\bibsep}{7pt plus 3pt minus 3pt}  % 调整参考文献间距
+
+%----- 微分符号 -----
+\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+
+%----- 定义新命令 -----
+\newcommand{\CC}{\ensuremath{\mathbb{C}}}
+\newcommand{\RR}{\ensuremath{\mathbb{R}}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\dx}[1][x]{\mathop{}\!\mathrm{d}#1}
+\newcommand{\ii}{\mathrm{i}\mkern1mu} % imaginary
+\newcommand{\refe}[2]{(\ref{#1})--(\ref{#2})}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\bA}{\boldsymbol{A}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+
+
+
+
+\begin{document}
+	
+	
+	\newpage
+	\pagenumbering{roman} % 保持罗马数字编号
+	\tableofcontents
+	\section{引言}
+	这是正文的开始，当前页码为0。
+	\section{引言}
+	这是正文的开始，当前页码为0。
+	\section{引言}
+	这是正文的开始，当前页码为0。
+	\newpage
+	\setcounter{page}{0} % 将页码设置为0
+	\pagenumbering{arabic} % 从0开始使用阿拉伯数字编号
+	
+	\section{Euler-Maruyama格式的收敛速度（当 $H\not\equiv0$ 时）}
+	\footnotetext{本文翻译自Strong approximation of time-changed stochastic
+		differential equations involving drifts with random and
+		non-random integrators的第四章.}
+	本节讨论了Euler-Maruyama类型逼近方案在解SDE(3.1)时的强收敛速度，其中 $H(u,x)=H(u)$，并在额外假设 $\mathcal{H}_1$ 和 $\mathcal{H}_2$ 的基础上，给出了SDE系数的两组不同假设条件。这些不同的假设条件导致不同的收敛速度。本节所证明的结果回答了第1节中提出的问题 $(\mathbf{A})$，并将[10]中定理3.1的结果推广到当两个漂移项$H$和$F$同时出现的情况。然而，正如第1节中讨论的那样，本文采取的方法与[10]中的方法完全不同，因为对偶原则未被使用。
+	
+	首先，我们描述一个用于逆从属 $E$ 的逼近过程，该过程在[15,16]中给出。固定一个等距的步长 $\delta\in(0,1)$ 和一个时间范围 $T>0$。为了在区间 $[0,T]$ 上逼近 $E$，我们首先模拟从属过程 $D$ 的样本路径，该过程具有独立和平稳增量，通过设置 $D_0=0$，然后根据规则：$D_{i\delta} := D_{(i-1)\delta} + Z_i, i=1,2,3,\dots$,其中$\left\{Z_i\right\}_{i\in\mathbb{N}} $是独立同分布的序列，满足$Z_i \stackrel{d}{=} D_\delta.$
+	我们在找到整数 $N$ 满足 $T \in [D_{N\delta}, D_{(N+1)\delta})$ 时停止此过程。注意，$\mathbb{N} \cup \{0\}$ 值的随机变量 $N$ 确实存在，因为 $D_t \to \infty$ , 当 $t \to \infty$ 时几乎必然成立。为了生成随机变量 $\{Z_i\}$，可以使用[2]中第6章所给的算法。接下来，定义
+	
+	\[
+	E_t^\delta := \left(\min\{n \in \mathbb{N}; D_{n\delta} > t\} - 1\right) \delta.
+	\]
+	
+	过程 $E^\delta = (E_t^\delta)_{t \geq 0}$ 的样本路径是单调递增的阶梯函数，具有常数跳跃大小 $\delta$，第 $i$ 个等待时间由 $Z_i = D_{i\delta} - D_{(i-1)\delta}$ 给出。实际上，很容易看出，对于 $n = 0, 1, 2, \dots, N$，
+	
+	\[
+	E_t^\delta = n\delta \quad \text{当且仅当} \quad t \in [D_{n\delta}, D_{(n+1)\delta}).
+	\]
+	
+	特别的, $E_T^\delta=N\delta.$ 过程 $E^\delta$ 有效地近似了[10,16]中的$E$ ; 也就是几乎处处有, 
+	
+	\begin{equation}\label{1}
+		E_t-\delta\leq E_t^\delta\leq E_t\quad\text{ 对于所有的 }t\in[0,T].
+	\end{equation}
+	
+	接下来, 对于$n=0,1,2,\ldots,N,$令
+	$$\tau_n=D_{n\delta}.$$
+	
+	由于假设 $B$ 和 $D$ 之间的独立性，我们可以在时间步长 $\{0, \delta, 2\delta, \ldots, N\delta\}$ 上逼近布朗运动 $B$。有了这个假设，定义离散时间过程 $(X_{\tau_n}^\delta)_{n \in \{0, 1, 2, \ldots, N\}}$，其中 $X_0^\delta := x_0$，并且对于 $n = 0, 1, 2, \ldots, N-1$，有：
+	\begin{align}\label{2}
+		X_{\tau_{n+1}}^\delta &:= X_{\tau_n}^\delta + H(E_{\tau_n}^\delta)(\tau_{n+1} - \tau_n) + F(E_{\tau_n}^\delta, X_{\tau_n}^\delta)(E_{\tau_{n+1}}^\delta - E_{\tau_n}^\delta) \\
+		& \quad + G(E_{\tau_n}^\delta, X_{\tau_n}^\delta)(B_{E_{\tau_{n+1}}^\delta} - B_{E_{\tau_n}^\delta}),\nonumber
+	\end{align}
+	
+	由于 $E_{\tau_n}^\delta = n\delta$，上式等价于：
+	\begin{align}\label{3}
+		X_{\tau_{n+1}}^\delta := X_{\tau_n}^\delta + H(n\delta)(\tau_{n+1} - \tau_n) + F(n\delta, X_{\tau_n}^\delta)\delta + G(n\delta, X_{\tau_n}^\delta)(B_{(n+1)\delta} - B_{n\delta}).
+	\end{align}
+	
+	特别地，当 $H \equiv F \equiv 0$ 且 $G \equiv 1$ 时，$(X_{\tau_n}^\delta)_{n \in \{0, 1, 2, \ldots, N\}}$ 变为一个离散化的时间变换布朗运动，其样本路径如图 2 所示。请注意，尽管表达式 (4.3) 可能看起来像是采取了非随机的时间步长，但我们实际上是通过随机时间步长 $\tau_0, \tau_1, \tau_2, \ldots, \tau_N$ 来离散化驱动过程 $E = (E_t)_{t \geq 0}$ 和 $B \circ E = (B_{E_t})_{t \geq 0}$，正如在(\ref{2})中所示；因此，时间变换过程的随机捕获事件（即产生恒定周期的事件）的关键特征，实际上是通过随机步长 $\tau_{n+1} - \tau_n = D_{(n+1)\delta} - D_{n\delta} \overset{\mathrm{d}}{=} D_\delta$ 来捕捉的。还要注意，我们并没有通过非随机时间步长来离散化SDE，因为这在实践中是困难的，因为驱动过程 $E$ 和 $B \circ E$ 既没有独立增量，也没有平稳增量。
+	
+	为了定义一个连续时间过程 $(X_t^\delta)_{t \in [0, T]}$，我们采用连续插值方法；即，对于 $s \in [\tau_n, \tau_{n+1})$，
+	\begin{equation}\label{4}
+		X_s^\delta := X_{\tau_n}^\delta + \int_{\tau_n}^s H(E_{\tau_n}) \, \mathrm{d}r + \int_{\tau_n}^s F(E_{\tau_n}, X_{\tau_n}^\delta) \, \mathrm{d}E_r + \int_{\tau_n}^s G(E_{\tau_n}, X_{\tau_n}^\delta) \, \mathrm{d}B_{E_r}.
+	\end{equation}
+	
+	令
+	\[
+	n_t = \max\{n \in \mathbb{N} \cup \{0\}; \tau_n \leq t\} 
+	\]
+	
+	
+	那么显然对于任何 \( t > 0 \)，都有 \( \tau_{n_{t}} \leq t < \tau_{n_{t}+1} \)。使用 (\ref{3}) 和恒等式
+	\[
+	X_{s}^{\delta} - x_{0} = \sum_{i=0}^{n_{s}-1} \left(X_{\tau_{i+1}}^{\delta} - X_{\tau_{i}}^{\delta}\right) + \left(X_{s}^{\delta} - X_{\tau_{n_{s}}}^{\delta}\right),
+	\]
+	我们可以将 \( X_{s}^{\delta} - x_{0} \) 表示为
+	\[
+	\sum_{i=0}^{n_s-1} \left[ H(E_{\tau_i})(\tau_{i+1} - \tau_i) + F(E_{\tau_i}, X_{\tau_i}^\delta) \delta + G(E_{\tau_i}, X_{\tau_i}^\delta) (B_{(i+1)\delta} - B_{i\delta}) \right] + \left( X_s^\delta - X_{\tau_{n_s}}^\delta \right).
+	\]
+	
+	其中我们使用了 $i\delta = E_{D_{i\delta}} = E_{\tau_i}$。利用 (4.4) 以及 $\tau_i = \tau_{n_r}$ 对于任何 $r \in [\tau_i, \tau_{i+1})$，我们可以将后者重新写为方便的形式：
+	\begin{equation}\label{5}
+		X_s^\delta = x_0 + \int_0^s H(E_{\tau_{n_r}}) \, \mathrm{d}r + \int_0^s F(E_{\tau_{n_r}}, X_{\tau_{n_r}}^\delta) \, \mathrm{d}E_r + \int_0^s G(E_{\tau_{n_r}}, X_{\tau_{n_r}}^\delta) \, \mathrm{d}B_{E_r}.
+	\end{equation}
+	
+	现在我们可以陈述本文的第一个主要定理，其中我们假设存在常数 $K > 0$ 和 $\theta \in (0, 1]$，使得对于所有 $u, v \geq 0$ 和 $x \in \mathbb{R}$，满足
+	\[
+	\mathcal{H}_3: |H(u) - H(v)| + |F(u, x) - F(v, x)| + |G(u, x) - G(v, x)| \leq K |u - v|^\theta (1 + |x|).
+	\]
+	
+	回忆一下，步长为 $\delta > 0$ 的近似过程 $X^\delta$ 称为在 $[0, T]$ 上以 \textit{阶数} $\eta \in (0, \infty)$ 强收敛到解 $X$，如果存在有限的正常数 $C$ 和 $\delta_0$，使得对于所有 $\delta \in (0, \delta_0)$，有
+	\[
+	\mathbb{E} \left[ \sup_{0 \leq t \leq T} |X_t - X_t^\delta| \right] \leq C \delta^\eta.
+	\]
+	
+	\begin{theorem}\label{th}
+		设 $X$ 是满足随机微分方程 (3.1) 的解，且 $H(u, x) = H(u)$ 对所有 $(u, x) \in [0, T] \times \mathbb{R}$ 成立，并假设条件 $\mathcal{H}_1, \mathcal{H}_2$ 和 $\mathcal{H}_3$ 均成立。假设 $D$ 的拉普拉斯指数 $\psi$ 在 $\infty$ 处是 \textit{正则变化的}，其指数为 $\beta \in (0, 1)$，且满足以下任一条件：
+		
+		\begin{itemize}
+			\item[(a)] $h$ 为常数，且 $\beta \in (1/2, 1)$；
+			\item[(b)] $h$ 是连续、单调递增的函数，并在 $\infty$ 处正则变化，指数为 $q \geq 0$，且 $\beta \in \left(\frac{2q + 1}{2q + 2}, 1\right)$。
+		\end{itemize}
+		设 $X^\delta$ 为定义在 (\ref{3})和 (\ref{4}) 中的 Euler-Maruyama 类型的近似过程。那么，存在一个常数 $C > 0$（与 $\delta$ 无关），使得对于所有 $\delta \in (0, 1)$，有
+		\[
+		\mathbb{E} \left[\sup_{0 \leq s \leq T} |X_s - X_s^\delta|\right] \leq C \delta^{\min\{\theta, 1/2\}}.
+		\]
+		因此，$X^\delta$ \textit{以阶数} $\min\{\theta, 1/2\}$ \textit{强收敛于} $X$，且在 $[0, T]$ 上 \textit{一致收敛}。
+	\end{theorem}
+	
+	\begin{lemma}
+		在定理\ref{th}的假设下，对于任意 $t \geq s \geq 0$，有
+		\[
+		\mathbb{E}_B[|X_t - X_s|] \leq \sqrt{2} h(E_t) \mathbb{E}_B[Y_t^{(2)}]^{1/2} \left\{(t - s) + (E_t - E_s)^{1/2} + (E_t - E_s)\right\},
+		\]
+		其中 $Y_t^{(2)}$ 定义见命题 3.1。
+	\end{lemma}
+	\begin{proof}
+		通过Cauchy–Schwartz不等式, $\mathbb{E}_B[|X_t-X_s|]$ 可以被控制,
+		\begin{gather*}
+			\mathbb{E}_{B}\left[\int_{s}^{t}|H(E_{r})|\mathrm{d}r\right]+\mathbb{E}_{B}\left[\int_{s}^{t}|F(E_{r},X_{r})|\mathrm{d}E_{r}\right]+\mathbb{E}_{B}\left[\left|\int_{s}^{t}G(E_{r},X_{r})\mathrm{d}B_{E_{r}}\right|^{2}\right]^{1/2} \\
+			\leq(t-s)h(E_t)+(E_t-E_s)h(E_t)\mathbb{E}_B[Y_t^{(1)}]+\sqrt{2}(E_t-E_s)^{1/2}h(E_t)\mathbb{E}_B[Y_t^{(2)}]^{1/2}. 
+		\end{gather*}
+		Jensen's 不等式给出了定理中的界限。
+	\end{proof}
+	
+	现在我们准备证明定理\ref{th}，其中局部化序列 $S_\ell$ 定义为：
+	\[
+	S_\ell := \inf\left\{ t \geq 0 : \sup_{0 \leq s \leq t} \left\{|X_s - X_s^\delta|\right\} > \ell \right\}
+	\]
+	
+	下面我们准备证明定理\ref{th},该序列使得我们可以将过程 $(\sup_{0 \leq s \leq t} \{|X_s - X_s^\delta|\})_{t \in [0, T]}$ 视为有界的。然而，正如在 3.1 备注中所述，为了阐明证明的主要思路，我们省略了 $S_\ell$，并假设过程是有界的。相同的论证适用于第 4 和第 5 节中的所有论断。
+	
+	
+	\textbf{定理1.1 的证明} \quad 令 $Z_t := \sup_{0 \leq s \leq t} |X_s - X_s^\delta|$，其中 $t \in [0, T]$。根据 (3.1) 和 (\ref{5}) 中分别给出的 $X$ 和 $X^\delta$ 的表示式，得到：
+	\[
+	Z_t \leq I_1 + I_2 + I_3,
+	\]
+	其中：
+	\[
+	\begin{aligned}
+		I_1 & := \sup_{0 \leq s \leq t} \left| \int_0^s (H(E_r) - H(E_{\tau_{n_r}})) \mathrm{d}r \right|, \\
+		I_2 & := \sup_{0 \leq s \leq t} \left| \int_0^s (F(E_r, X_r) - F(E_{\tau_{n_r}}, X_{\tau_{n_r}}^\delta)) \mathrm{d}E_r \right|, \\
+		I_3 & := \sup_{0 \leq s \leq t} \left| \int_0^s (G(E_r, X_r) - G(E_{\tau_{n_r}}, X_{\tau_{n_r}}^\delta)) \mathrm{d}B_{E_r} \right|.
+	\end{aligned}
+	\]
+	
+	现在，在$I_1$的表达式中，回顾到$\tau_{n_r} \leq r < \tau_{n_r+1}$且$0 \leq E_r - E_{\tau_{n_r}} \leq (n_r+1)\delta - n_r\delta = \delta$。
+	结合Cauchy-Schwartz不等式和假设$\mathcal{H}_3$，我们得到：
+	\begin{equation}\label{6}
+		I_1^2 \leq t \int_0^t (H(E_r) - H(E_{\tau_{n_r}}))^2 \, \mathrm{d}r \leq K^2 T^2 \delta^{2\theta}.
+	\end{equation}
+	
+	至于$I_2$，通过Cauchy-Schwarz不等式注意到：
+	
+	$$
+	\mathbb{E}_B[I_2^2] \leq E_t \int_0^t \mathbb{E}_B\left[ \left( F(E_r, X_r) - F(E_{\tau_{n_r}}, X_{\tau_{n_r}}^\delta) \right)^2 \right] \, \mathrm{d}E_r
+	$$
+	由于$\mathcal{H}_1, \mathcal{H}_3$ 和以下不等式成立：
+	\begin{align*}
+		|F(E_r, X_r) - F(E_{\tau_{n_r}}, X_{\tau_{n_r}}^\delta)| 
+		&\leq |F(E_r, X_r) - F(E_{\tau_{n_r}}, X_r)| + |F(E_{\tau_{n_r}}, X_r) - F(E_{\tau_{n_r}}, X_{\tau_{n_r}})| \\
+		&+ |F(E_{\tau_{n_r}}, X_{\tau_{n_r}}) - F(E_{\tau_{n_r}}, X_{\tau_{n_r}}^\delta)|
+	\end{align*}
+	则有：
+	\begin{align}\label{7}
+		\mathbb{E}_B[I_2^2] &\leq 3 E_T \int_0^t \mathbb{E}_B \left[ K^2 \delta^{2\theta} (1 + |X_r|)^2 + h^2(E_{\tau_{n_r}}) |X_r - X_{\tau_{n_r}}|^2 + h^2(E_{\tau_{n_r}}) Z_{\tau_{n_r}}^2 \right] \, \mathrm{d}E_r\\\nonumber
+		&\leq 6 E_T^2 K^2 \delta^{2\theta} \mathbb{E}_B[Y_T^{(2)}] \\\nonumber
+		&+ 3 E_T h^2(E_T) \left\{ \int_0^t \mathbb{E}_B[|X_r - X_{\tau_{n_r}}|^2] \, \mathrm{d}E_r + \int_0^t \mathbb{E}_B[Z_r^2] \, \mathrm{d}E_r \right\}.
+	\end{align}
+	现在，对于任意 $r \in [0, t]$，根据引理\ref{th}和 $0 \leq E_r - E_{\tau_{n_r}} \leq \delta$，我们有：
+	\begin{equation}\label{8}
+		\mathbb{E}_B[|X_r - X_{\tau_{n_r}}|^2] \leq 6 h^2(E_T) \mathbb{E}_B[Y_T^{(2)}] \left\{(r - \tau_{n_r})^2 + \delta + \delta^2 \right\}. 
+	\end{equation}
+	此外，
+	\begin{align}\label{9}
+		&\int_0^t (r - \tau_{n_r})^2 \, \mathrm{d}E_r = \sum_{i=0}^{n_t-1} \int_{t_i}^{\tau_{i+1}} (r - \tau_i)^2 \, \mathrm{d}E_r + \int_{\tau_{n_t}}^t (r - \tau_{n_t})^2 \, \mathrm{d}E_r\\\nonumber
+		&\leq \delta \left( \sum_{i=0}^{n_t-1} (\tau_{i+1} - \tau_i)^2 + (t - \tau_{n_t})^2 \right) 
+		\leq 2T \delta \left( \sum_{i=0}^{n_t-1} (\tau_{i+1} - \tau_i) + (t - \tau_{n_t}) \right)\\ \nonumber
+		&\leq 2T^2 \delta.\nonumber
+	\end{align}
+	结合 (\ref{8}) 和 (\ref{9}) 与 (\ref{7})，并回忆起 $\delta < 1$，我们得到：
+	\begin{equation}\label{10}
+		\mathbb{E}_B[I_2^2] \leq \xi_1(E_T) \mathbb{E}_B[Y_T^{(2)}] \delta^{\min\{2\theta, 1\}} + 3 E_T h^2(E_T) \int_0^t \mathbb{E}_B[Z_r^2] \, \mathrm{d}E_r,
+	\end{equation}
+	其中 $\xi_1(u) := 36 u^2 h^4(u) + 36 u h^4(u) T^2 + 6 u^2 K^2$.
+	
+	关于 $I_3$，使用 BDG 不等式和与前述段落类似的计算，得出：
+	\begin{equation}\label{11}
+		\mathbb{E}_B[I_3^2] \leq \xi_2(E_T) \mathbb{E}_B[Y_T^{(2)}] \delta^{\min\{2\theta, 1\}} + 3 b_2 h^2(E_T) \int_0^t \mathbb{E}_B[Z_r^2] \, \mathrm{d}E_r,
+	\end{equation}
+	其中 $\xi_2(u) := \frac{b_2 \xi_1(u)}{u}$。
+	
+	将估计式 (\ref{6}), (\ref{10}) 和 (\ref{11}) 结合起来得到
+	\[
+	E_{B}\left[Z_{t}^{2}\right] \leq \xi_{3}\left(E_{T}\right) E_{B}\left[Y_{T}^{(2)}\right] \delta^{\min\{2\theta, 1\}} + 9\left(E_{T} + b_{2}\right) h^{2}\left(E_{T}\right) \int_{0}^{t} E_{B}\left[Z_{r}^{2}\right] d E_{r},
+	\]
+	其中 \(\xi_{3}(u) := 3\xi_{1}(u) + 3\xi_{2}(u) + 3 K^{2} T^{2}\)。利用第 IX 章第 6a 节中的 Gronwall 型不等式 [8] 的引理 6.3 并设置 \(t = T\)，得到
+	\[
+	E_{B}\left[Z_{T}^{2}\right] \leq \xi_{3}\left(E_{T}\right) E_{B}\left[Y_{T}^{(2)}\right] e^{9 E_{T}\left(E_{T} + b_{2}\right) h^{2}\left(E_{T}\right)} \delta^{\min\{2\theta, 1\}}.
+	\]
+	对两边取 \(E_{D}\) 的期望并使用 Cauchy-Schwartz 不等式，得到
+	\begin{equation}\label{12}
+		E\left[Z_T^2\right] \leq E\left[\xi_3^4\left(E_T\right)\right]^{1/4} E\left[\left(Y_T^{(2)}\right)^4\right]^{1/4} E\left[e^{18 E_T\left(E_T + b_2\right) h^2\left(E_T\right)}\right]^{1/2} \delta^{\min\{2\theta, 1\}}.
+	\end{equation}
+	
+	
+	所需的结果通过证明 (\ref{12}) 右边的期望是有限的而得出。现在，假设 \(h\) 是常数。那么，根据命题 2.1 和 3.1，我们有 \(E\left[\xi_{3}^{4}\left(E_{T}\right)\right] < \infty\) 和 \(E\left[\left(Y_{T}^{(2)}\right)^{4}\right] \leq 8 E\left[Y_{T}^{(8)}\right] < \infty\)。至于 \(E\left[e^{18 E_{T}\left(E_{T} + b_{2}\right) h^{2}\left(E_{T}\right)}\right]\)，由于引理 2.1，指数的形式是 \(f\left(E_{T}\right)\)，其中 \(f \in RV_{2}(\infty)\)，因此根据定理 2.1，该期望是有限的，当且仅当 \(2 < 1/(1-\beta)\)（即 \(\beta \in (1/2, 1)\)）。
+	
+	另一方面，如果 \( h \in RV_{q}(\infty) \) 且 \( q \geq 0 \)，根据命题 3.1，若 \( \beta \in \left( \frac{2q}{2q+1}, 1 \right) \)，则 \( E\left[Y_{T}^{(8)}\right] < \infty \)。由于 \( E\left[ e^{18 E_T \left( E_T + b_2 \right) h^2 \left( E_T \right)} \right] \) 的指数具有形式 \( f\left( E_{T} \right) \)，其中 \( f \in RV_{2q+2}(\infty) \)，根据定理 2.1，该期望是有限的，当且仅当 \( 2q+2 < \frac{1}{1-\beta} \)（即 \( \beta \in \left( \frac{2q+1}{2q+2}, 1 \right) \)）。因此，只要 \( \beta \in \left( \frac{2q+1}{2q+2}, 1 \right) \)，结果即成立。
+	
+	\begin{remark}
+		
+		\begin{enumerate}
+			\item 上述证明中使用的方法提供了一个一般性的思路，说明如何分析可能涉及随机时间变换的 SDE 近似方案的强收敛速度。
+			\item 如果我们允许系数 \( H \) 也依赖于 \( x \)，则上述证明将无法适用。事实上，这种情况将要求对 \( E_{B}\left[I_{1}^{2}\right] \) 进行类似于 (\ref{7}) 的估计，从而产生积分 \( \int_{0}^{t}E_{B}\left[\left|X_{r}-X_{\tau_{n_{r}}}\right|^{2}\right] dr \)。根据 (\ref{8})，这个积分的上界可以被包含在涉及积分 \( \int_{0}^{t}(r-\tau_{n_{r}})^{2}dr \) 的量级中。然而，与 (\ref{9}) 不同的是，后者的积分不会导致包含 \( \delta \) 的界限。
+			\item 尽管我们通过 (\ref{4}) 中的连续插值对离散化过程 \( \left(X_{\tau_{n}}^{\delta}\right)_{n\in\{0,1,2,\ldots, N\}} \) 进行了插值，但在 \( H\equiv 0 \) 的情况下，采用分段常数插值 \( X_{t}^{\delta}:=X_{\tau_{n_{t}}}^{\delta} \) 也是可能的，正如 [9] 中所示。在这种情况下，\( Z_t \) 的界限将额外包含在区间 \([tn,s]\) 上的积分的上确界，包括
+			\[
+			I_{5}:=\sup_{0\leq s\leq t}\left|\int_{\tau_{n_{s}}}^{s}G(E_{r},X_{r})\, dB_{E_{r}}\right|.
+			\]
+			对 \( E_{B}[I_{5}^{2}] \) 的估计可以借助于 [4] 中关于随机积分的连续模结果来进行，然而这只会得到收敛阶数为 \( \frac{1}{2}-\varepsilon \) 的结果，其中 \( \varepsilon > 0 \)。详情请参见 [9] 中的备注 9(3)。
+			\item 上述证明表明，参数 \( \beta \) 在确定 \( E[Z^2] \) 上界有限性方面起着重要作用。另一方面，\( \beta \) 对于 \( X^{\delta} \) 的收敛速度没有影响，这是因为我们构造的离散时间变化 \( E^{\delta} \) 使得无论 \( \beta \) 的值如何，\( E^{\delta} \) 都以 1 的阶数收敛到 \( E \)，正如 (\ref{1}) 所示。上述论证表明，如果 \( E^{\delta} \) 的收敛速度依赖于 \( \beta \)，则 \( X^{\delta} \) 的收敛速度也可能涉及 \( \beta \)。
+		\end{enumerate}
+	\end{remark}
+	
+	
+	
+	
+	
+\end{document}
+
