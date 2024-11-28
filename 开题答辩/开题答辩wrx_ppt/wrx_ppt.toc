@@ -1,6 +1,0 @@
-\beamer@sectionintoc {1}{研究背景与意义}{3}{0}{1}
-\beamer@sectionintoc {2}{国内外研究现状}{5}{0}{2}
-\beamer@sectionintoc {3}{研究内容与主要工作}{7}{0}{3}
-\beamer@sectionintoc {4}{论文创新点与问题}{12}{0}{4}
-\beamer@sectionintoc {5}{论文进度安排及预期成果}{13}{0}{5}
-\beamer@sectionintoc {6}{主要参考文献}{15}{0}{6}
